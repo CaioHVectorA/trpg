@@ -87,22 +87,30 @@ npm run build
 
 ---
 
-## 🐘 Migração para Supabase / PostgreSQL
+## 🐘 Deploy & Migração para PostgreSQL (Vercel / Neon / Supabase)
 
-O esquema Prisma (`prisma/schema.prisma`) foi modelado de forma 100% universal e declarativa. Para migrar para uma instância do Supabase PostgreSQL:
+O esquema Prisma (`prisma/schema.prisma`) foi modelado de forma 100% universal e declarativa.
 
-1. Obtenha a connection string do seu projeto no Supabase (em *Project Settings -> Database*).
-2. No arquivo `.env`, altere:
-```env
-DATABASE_URL="postgresql://postgres:[SENHA]@db.[REF].supabase.co:5432/postgres?schema=public"
-```
-3. No arquivo `prisma/schema.prisma`, altere o datasource:
+### Deploy 100% Grátis na Vercel + Neon Postgres (Recomendado)
+1. Conecte o repositório na Vercel.
+2. Na aba **Storage** do seu projeto Vercel, adicione a integração **Postgres (Neon)** do Vercel Marketplace.
+3. A Vercel injetará automaticamente a variável `DATABASE_URL`.
+4. No arquivo `prisma/schema.prisma`, certifique-se de que o datasource está configurado para `postgresql`:
 ```prisma
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 ```
+5. Execute `npm run prisma:push` e `npm run prisma:seed` no seu ambiente para sincronizar e popular o banco.
+
+### Migração para Supabase PostgreSQL
+1. Obtenha a connection string do seu projeto no Supabase (em *Project Settings -> Database*).
+2. No arquivo `.env`, altere:
+```env
+DATABASE_URL="postgresql://postgres:[SENHA]@db.[REF].supabase.co:5432/postgres?schema=public"
+```
+3. No arquivo `prisma/schema.prisma`, altere o datasource para `postgresql`.
 4. Execute `npm run prisma:push` e `npm run prisma:seed`.
 
 ---
