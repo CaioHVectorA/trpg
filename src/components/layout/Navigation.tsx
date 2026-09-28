@@ -29,11 +29,11 @@ export const Navigation: React.FC = () => {
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 rounded text-xs sm:text-sm font-medium transition-colors duration-150',
               isActive
-                ? 'bg-slate-800 text-amber-400 font-semibold'
-                : 'text-slate-400 hover:text-slate-100 hover:bg-slate-900'
+                ? 'bg-zinc-800 text-amber-400 font-semibold'
+                : 'text-zinc-400 hover:text-zinc-100 hover:bg-zinc-900'
             )}
           >
-            <Icon className="w-4 h-4 text-slate-400" />
+            <Icon className="w-4 h-4 text-zinc-400" />
             <span className="hidden md:inline">{item.label}</span>
           </Link>
         );

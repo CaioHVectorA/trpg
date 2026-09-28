@@ -1,42 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 9 13 22;
-    --foreground: 248 250 252;
+    --background: 9 9 11;
+    --foreground: 250 250 250;
     color-scheme: dark;
   }
 
   body {
-    background-color: #090D16;
-    color: #F8FAFC;
-    font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+    background-color: #09090B;
+    color: #FAFAFA;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.011em;
   }
 
   ::selection {
-    background-color: rgba(245, 158, 11, 0.25);
-    color: #FDE68A;
+    background-color: #27272A;
+    color: #FAFAFA;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
-    letter-spacing: -0.015em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    letter-spacing: -0.025em;
+    font-weight: 700;
   }
 }
 
 @layer components {
   /* Flat Card Primitive */
   .fantasy-card {
-    @apply bg-slate-900 border border-slate-800 rounded-lg transition-colors duration-150;
+    @apply bg-zinc-900 border border-zinc-800 rounded-lg transition-colors duration-150;
   }
 
   .fantasy-card:hover {
-    @apply border-amber-500/30;
+    @apply border-zinc-700;
   }
 
   /* Parchment / Clean Contrast Card */
@@ -53,7 +57,7 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #090D16;
+    background: #09090B;
   }
   ::-webkit-scrollbar-thumb {
     background: #27272A;

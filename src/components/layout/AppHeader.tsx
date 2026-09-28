@@ -6,7 +6,7 @@ import { Sparkles, Swords } from 'lucide-react';
 
 export const AppHeader: React.FC = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800 bg-slate-950">
+    <header className="sticky top-0 z-50 w-full border-b border-zinc-800 bg-zinc-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         {/* Brand / Logo */}
         <Link href="/" className="flex items-center gap-2.5 group">
