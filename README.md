@@ -18,6 +18,8 @@ Acesse os manuais técnicos e guias de arquitetura detalhados na pasta [`/docs`]
    - Matriz comparativa com Roll20 e Foundry VTT e arquitetura WebSockets/SSE para sessões de RPG virtuais ao vivo.
 5. 🚀 [**Guia de Deploy, Docker e Operações (`docs/DEPLOYMENT_AND_OPERATIONS.md`)**](./docs/DEPLOYMENT_AND_OPERATIONS.md)
    - Execução local zero-friction, deploy em produção na Vercel com Supabase (PostgreSQL) e conteinerização Docker.
+6. 🧩 [**Extensibilidade, Plugins e Webhooks (`docs/EXTENSIBILITY_AND_PLUGINS.md`)**](./docs/EXTENSIBILITY_AND_PLUGINS.md)
+   - Conteúdos *Homebrew*, overlays para transmissões ao vivo (OBS), macros de chat, webhooks e plugins VTT.
 
 ---
 
@@ -87,7 +89,7 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🧪 Suíte de Testes Automatizados
 
-A aplicação conta com mais de **428 testes automatizados** cobrindo regras de Tormenta, analisador de dados, grid tático e persistência via Vitest.
+A aplicação conta com mais de **433 testes automatizados** cobrindo regras de Tormenta, analisador de dados, grid tático e persistência via Vitest.
 
 ```bash
 # Executa todos os testes

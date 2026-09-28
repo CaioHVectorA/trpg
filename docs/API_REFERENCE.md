@@ -288,3 +288,8 @@ Consulta interativa do compêndio canônico de Arton.
   ]
 }
 ```
+
+---
+
+## 🧩 6. Extensibilidade & Plugins
+Para detalhes sobre injeção de conteúdos *Homebrew*, macros de atalho, overlays de transmissão (OBS) e webhooks para Discord/bots, consulte o [**Guia de Extensibilidade e Plugins (`docs/EXTENSIBILITY_AND_PLUGINS.md`)**](./EXTENSIBILITY_AND_PLUGINS.md).
