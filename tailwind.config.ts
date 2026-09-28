@@ -10,10 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'arton-ruby': '#B91C1C',
-        'valkyr-gold': '#D4AF37',
+        'arton-ruby': '#DC2626',
+        'valkyr-gold': '#F59E0B',
         'mana-sapphire': '#2563EB',
-        'parchment-base': '#FDFBF7',
+        'parchment-base': '#18181B',
         'tabletop-slate': '#0F172A',
         'nat20-emerald': '#16A34A',
         'nat1-fumble': '#DC2626',
@@ -37,7 +37,7 @@ const config: Config = {
           300: '#FCD34D',
           400: '#FBBF24',
           500: '#F59E0B',
-          600: '#D4AF37', // Valkyr Gold
+          600: '#D97706',
           700: '#B45309',
           800: '#92400E',
           900: '#78350F',
@@ -55,10 +55,10 @@ const config: Config = {
           900: '#1E3A8A',
         },
         parchment: {
-          light: '#FDFBF7',
-          DEFAULT: '#F7F2E7',
-          dark: '#EADBBA',
-          border: '#D5C4A1',
+          light: '#27272A',
+          DEFAULT: '#18181B',
+          dark: '#09090B',
+          border: '#3F3F46',
         },
         tabletop: {
           50: '#F8FAFC',
@@ -71,20 +71,21 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ['var(--font-cinzel)', 'Cinzel', 'Georgia', 'Cambria', 'serif'],
-        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-inter)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif', 'Cinzel'],
+        sans: ['var(--font-inter)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
       },
       boxShadow: {
-        'fantasy-card': '0 4px 20px -2px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.25)',
-        'fantasy-active': '0 0 15px 2px rgba(212, 175, 55, 0.45)',
-        'crit-glow': '0 0 16px 2px rgba(34, 197, 94, 0.5)',
-        'fumble-glow': '0 0 16px 2px rgba(239, 68, 68, 0.5)',
+        'fantasy-card': 'none',
+        'fantasy-active': 'none',
+        'crit-glow': 'none',
+        'fumble-glow': 'none',
+        'flat': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
       },
       backgroundImage: {
-        'parchment-pattern': 'radial-gradient(#e2d5bc 1px, transparent 1px)',
+        'parchment-pattern': 'none',
         'vtt-grid':
-          'linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)',
+          'linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)',
       },
     },
   },

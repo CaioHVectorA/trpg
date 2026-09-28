@@ -12,18 +12,18 @@ export const Badge: React.FC<BadgeProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    gold: 'bg-amber-500/20 text-amber-300 border-amber-500/40',
-    arton: 'bg-red-500/20 text-red-300 border-red-500/40',
-    mana: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-    emerald: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40',
+    gold: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+    arton: 'bg-red-500/10 text-red-400 border-red-500/30',
+    mana: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
+    emerald: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30',
     slate: 'bg-slate-800 text-slate-300 border-slate-700',
-    outline: 'bg-transparent text-slate-300 border-slate-600',
+    outline: 'bg-transparent text-slate-300 border-slate-700',
   };
 
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium border tracking-wide uppercase',
+        'inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium border tracking-wide uppercase',
         variantStyles[variant],
         className
       )}
