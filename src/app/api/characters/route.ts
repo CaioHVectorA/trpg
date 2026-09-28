@@ -9,6 +9,8 @@ import prisma from '@/lib/db/prisma';
 import { calculateDerivedStats } from '@/lib/rules';
 import { SystemMode, AttributeBlock, BaseSheet } from '@/lib/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
