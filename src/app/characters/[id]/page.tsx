@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import prisma from '@/lib/db/prisma';
 import { CharacterSheetView } from '@/components/sheet/CharacterSheetView';
-import { ArrowLeft, Shield } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,17 +23,17 @@ export default async function CharacterDetailPage({ params }: CharacterDetailPag
   }
 
   return (
-    <div className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-6">
-      <div className="flex items-center justify-between border-b border-amber-500/20 pb-4">
+    <div className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-6">
+      <div className="flex items-center justify-between border-b border-slate-800 pb-4">
         <div className="flex items-center gap-3">
           <Link
             href="/characters"
-            className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-amber-300 hover:border-amber-500/40 transition-colors"
+            className="p-1.5 rounded bg-slate-900 border border-slate-800 text-slate-300 hover:text-white hover:border-slate-700 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-2xl sm:text-3xl font-serif font-black text-amber-200">
+            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-100">
               {character.name}
             </h1>
             <p className="text-xs text-slate-400 mt-0.5">

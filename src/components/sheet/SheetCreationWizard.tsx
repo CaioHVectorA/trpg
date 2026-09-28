@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,7 +19,10 @@ import {
   Award,
   Package,
   Dices,
-  AlertCircle
+  AlertCircle,
+  BookOpen,
+  Plus,
+  Loader2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -90,6 +93,20 @@ export interface SheetCreationWizardProps {
   initialSystem?: SystemMode;
 }
 
+interface CompendiumApiItem {
+  id: string;
+  system: string;
+  type: string;
+  name: string;
+  description: string;
+  category?: string;
+  circle?: number;
+  cost?: string;
+  requirement?: string;
+  dataJson: string;
+  tags: string;
+}
+
 // Canonical Races with Modifiers
 const RACES = [
   {
@@ -97,7 +114,6 @@ const RACES = [
     description: '+1 em três atributos diferentes à escolha. Duas perícias treinadas extras.',
     modsT20: { FOR: 1, DES: 1, CON: 1, INT: 0, SAB: 0, CAR: 0 },
     modsTRPG: { FOR: 2, DES: 0, CON: 0, INT: 0, SAB: 0, CAR: 0 },
-    size: 'MEDIO',
     speed: 9,
   },
   {
@@ -105,7 +121,6 @@ const RACES = [
     description: 'Conhecimento das rochas, devagar e sempre, tradição de Heredrimm.',
     modsT20: { FOR: 0, DES: -1, CON: 2, INT: 0, SAB: 1, CAR: 0 },
     modsTRPG: { FOR: 0, DES: -2, CON: 4, INT: 0, SAB: 2, CAR: 0 },
-    size: 'MEDIO',
     speed: 6,
   },
   {
@@ -113,7 +128,6 @@ const RACES = [
     description: 'Sentidos aguçados, herança mágica, deslocamento veloz.',
     modsT20: { FOR: 0, DES: 1, CON: -1, INT: 2, SAB: 0, CAR: 0 },
     modsTRPG: { FOR: 0, DES: 2, CON: -2, INT: 2, SAB: 0, CAR: 0 },
-    size: 'MEDIO',
     speed: 12,
   },
   {
@@ -121,7 +135,6 @@ const RACES = [
     description: 'Desejos sobrenaturais, resistência elemental.',
     modsT20: { FOR: 0, DES: 0, CON: 0, INT: 1, SAB: -1, CAR: 2 },
     modsTRPG: { FOR: 0, DES: 0, CON: 0, INT: 2, SAB: -2, CAR: 4 },
-    size: 'MEDIO',
     speed: 9,
   },
   {
@@ -129,7 +142,6 @@ const RACES = [
     description: 'Cria da Tormenta, deformidade aberrante e visão no escuro.',
     modsT20: { FOR: 1, DES: 1, CON: 1, INT: 0, SAB: 0, CAR: -1 },
     modsTRPG: { FOR: 2, DES: 2, CON: 2, INT: 0, SAB: 0, CAR: -2 },
-    size: 'MEDIO',
     speed: 9,
   },
   {
@@ -137,7 +149,6 @@ const RACES = [
     description: 'Engenhoso, furtivo, rato de esgoto e tamanho pequeno.',
     modsT20: { FOR: 0, DES: 2, CON: 0, INT: 1, SAB: 0, CAR: -1 },
     modsTRPG: { FOR: -2, DES: 4, CON: 2, INT: 0, SAB: 0, CAR: -2 },
-    size: 'PEQUENO',
     speed: 9,
   },
   {
@@ -145,7 +156,6 @@ const RACES = [
     description: 'Chifres intimidadores, faro aguçado e medo de altura.',
     modsT20: { FOR: 2, DES: -1, CON: 1, INT: 0, SAB: 0, CAR: 0 },
     modsTRPG: { FOR: 4, DES: -2, CON: 2, INT: 0, SAB: 0, CAR: 0 },
-    size: 'MEDIO',
     speed: 9,
   },
 ];
@@ -203,7 +213,7 @@ const CLASSES = [
   },
 ];
 
-// Starting Equipment Presets
+// Presets
 const WEAPONS_PRESET = [
   { name: 'Espada Longa', damage: '1d8', damageType: 'Corte', threatRange: 19, critMultiplier: 2, weight: 1 },
   { name: 'Machado de Batalha', damage: '1d8', damageType: 'Corte', threatRange: 20, critMultiplier: 3, weight: 1 },
@@ -233,7 +243,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
   initialSystem = 'T20',
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
-  const totalSteps = 7;
+  const totalSteps = 8; // Step 1: Identidade, Step 2: Raça, Step 3: Classe, Step 4: Atributos, Step 5: Perícias, Step 6: Magias & Poderes, Step 7: Equipamento, Step 8: Revisão
 
   // Step 1: System & Identity
   const [isNpc, setIsNpc] = useState(false);
@@ -252,7 +262,6 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
   const [level, setLevel] = useState(1);
 
   // Step 4: Attributes & Point Buy
-  const [isPointBuy, setIsPointBuy] = useState(true);
   const [baseAttrs, setBaseAttrs] = useState<AttributeBlock>(
     system === 'T20'
       ? { FOR: 3, DES: 1, CON: 2, INT: 0, SAB: 1, CAR: -1 }
@@ -267,10 +276,37 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
     'iniciativa',
   ]);
 
-  // Step 6: Equipment
+  // Step 6: Spells & Powers (Pulled from API)
+  const [compendiumItems, setCompendiumItems] = useState<CompendiumApiItem[]>([]);
+  const [isLoadingApi, setIsLoadingApi] = useState(false);
+  const [selectedSpells, setSelectedSpells] = useState<Array<{ name: string; circle?: number; costPM?: number; description?: string }>>([]);
+  const [selectedPowers, setSelectedPowers] = useState<Array<{ name: string; costPM?: number; description?: string }>>([]);
+
+  // Step 7: Equipment
   const [selectedWeapon, setSelectedWeapon] = useState(WEAPONS_PRESET[0]);
-  const [selectedArmor, setSelectedArmor] = useState(ARMORS_PRESET[4]); // Cota de Malha
-  const [selectedShield, setSelectedShield] = useState(SHIELDS_PRESET[2]); // Escudo Pesado
+  const [selectedArmor, setSelectedArmor] = useState(ARMORS_PRESET[4]);
+  const [selectedShield, setSelectedShield] = useState(SHIELDS_PRESET[2]);
+
+  // Dynamic API Fetching from Compendium
+  useEffect(() => {
+    async function fetchCompendiumData() {
+      setIsLoadingApi(true);
+      try {
+        const res = await fetch(`/api/compendium?system=${system}`);
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.items)) {
+            setCompendiumItems(json.items);
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao buscar itens do compêndio para o criador:', e);
+      } finally {
+        setIsLoadingApi(false);
+      }
+    }
+    fetchCompendiumData();
+  }, [system]);
 
   // Sync attributes format when system changes
   const handleSystemSwitch = (newSys: SystemMode) => {
@@ -349,10 +385,43 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
 
   // Toggle skill selection
   const handleToggleSkill = (skillKey: string) => {
-    if (selectedClass.mandatory.includes(skillKey)) return; // cannot deselect mandatory
+    if (selectedClass.mandatory.includes(skillKey)) return;
     setTrainedSkills((prev) =>
       prev.includes(skillKey) ? prev.filter((s) => s !== skillKey) : [...prev, skillKey]
     );
+  };
+
+  // Toggle Spell selection from API
+  const handleToggleSpell = (item: CompendiumApiItem) => {
+    setSelectedSpells((prev) => {
+      const exists = prev.some((s) => s.name === item.name);
+      if (exists) return prev.filter((s) => s.name !== item.name);
+      return [
+        ...prev,
+        {
+          name: item.name,
+          circle: item.circle || 1,
+          costPM: item.cost ? parseInt(item.cost) || 1 : 1,
+          description: item.description,
+        },
+      ];
+    });
+  };
+
+  // Toggle Power selection from API
+  const handleTogglePower = (item: CompendiumApiItem) => {
+    setSelectedPowers((prev) => {
+      const exists = prev.some((p) => p.name === item.name);
+      if (exists) return prev.filter((p) => p.name !== item.name);
+      return [
+        ...prev,
+        {
+          name: item.name,
+          costPM: item.cost ? parseInt(item.cost) || 0 : 0,
+          description: item.description,
+        },
+      ];
+    });
   };
 
   // Final creation payload
@@ -380,20 +449,8 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
           critMultiplier: selectedWeapon.critMultiplier,
         },
       ],
-      spells:
-        selectedClass.name === 'Arcanista'
-          ? [
-              { name: 'Mísseis Mágicos', circle: 1, costPM: 1, description: '2 dardos de 1d4+1 Essência' },
-              { name: 'Bola de Fogo', circle: 2, costPM: 3, description: '6d6 fogo em área' },
-            ]
-          : [],
-      powers:
-        selectedClass.name === 'Guerreiro'
-          ? [
-              { name: 'Ataque Especial', costPM: 1, description: '+4 no ataque ou no dano' },
-              { name: 'Ataque Poderoso', costPM: 0, description: '-2 no ataque para +5 de dano' },
-            ]
-          : [],
+      spells: selectedSpells,
+      powers: selectedPowers,
       inventory: [
         { name: selectedWeapon.name, weightSlots: selectedWeapon.weight, quantity: 1, equipped: true },
         {
@@ -427,33 +484,38 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
       pvMax: derivedPreview.pvMax,
       pmMax: derivedPreview.pmMax,
       defense: derivedPreview.defense,
-      notes: isNpc ? `Ameaça de Tormenta ND ${threatNd} - Papel: ${threatRole}` : 'Personagem criado pelo Construtor Dinâmico.',
+      notes: isNpc ? `Ameaça de Tormenta ND ${threatNd} - Papel: ${threatRole}` : 'Personagem criado pelo Construtor Multistep.',
     };
 
     onSave(createdData);
   };
 
+  // Filtered compendium spells & powers
+  const availableSpells = compendiumItems.filter((i) => i.type === 'SPELL');
+  const availablePowers = compendiumItems.filter((i) => i.type === 'POWER' || i.type === 'TALENT');
+
   return (
-    <Card variant="tabletop" className="max-w-4xl mx-auto border-amber-500/40 shadow-2xl overflow-hidden">
+    <Card variant="tabletop" className="max-w-4xl mx-auto border-zinc-800 shadow-xl overflow-hidden bg-zinc-950">
       {/* Header & Steps Breadcrumb */}
-      <div className="bg-slate-950/90 border-b border-amber-500/20 p-5">
+      <div className="bg-zinc-900 border-b border-zinc-800 p-5">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <div className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-amber-400" />
-              <h2 className="text-xl font-serif font-black text-amber-100">
-                Criador de Ficha — {isNpc ? 'Ameaça / Monstro' : 'Personagem Jogador'}
+              <h2 className="text-lg font-sans font-bold text-zinc-100">
+                Criador Multistep — {isNpc ? 'Ameaça / Monstro' : 'Personagem Jogador'}
               </h2>
             </div>
-            <p className="text-xs text-slate-400 mt-1">
+            <p className="text-xs text-zinc-400 mt-1">
               Passo {currentStep} de {totalSteps}:{' '}
-              {currentStep === 1 && 'Sistema & Identidade'}
+              {currentStep === 1 && 'Identidade'}
               {currentStep === 2 && 'Raça & Linhagem'}
               {currentStep === 3 && 'Classe & Nível'}
-              {currentStep === 4 && 'Distribuição de Atributos'}
-              {currentStep === 5 && 'Perícias & Habilidades'}
-              {currentStep === 6 && 'Equipamento & Defesa'}
-              {currentStep === 7 && 'Revisão Final'}
+              {currentStep === 4 && 'Atributos & Modificadores'}
+              {currentStep === 5 && 'Perícias Treinadas'}
+              {currentStep === 6 && 'Magias & Poderes (Compêndio)'}
+              {currentStep === 7 && 'Equipamento & Defesa'}
+              {currentStep === 8 && 'Revisão Final'}
             </p>
           </div>
 
@@ -461,7 +523,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
             <Badge variant={system === 'T20' ? 'arton' : 'mana'}>
               {system === 'T20' ? 'Tormenta 20' : 'TRPG Clássico'}
             </Badge>
-            <Button size="sm" variant="ghost" onClick={onCancel} className="text-slate-400 hover:text-white">
+            <Button size="sm" variant="ghost" onClick={onCancel} className="text-zinc-400 hover:text-white">
               <X className="w-4 h-4" />
             </Button>
           </div>
@@ -480,10 +542,10 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                 className={cn(
                   'flex items-center gap-1.5 px-3 py-1 rounded text-xs font-semibold whitespace-nowrap transition-all',
                   isCurrent
-                    ? 'bg-amber-500 text-slate-950 shadow'
+                    ? 'bg-amber-500 text-zinc-950 shadow'
                     : isDone
-                    ? 'bg-slate-800 text-amber-300 hover:bg-slate-700'
-                    : 'bg-slate-900/50 text-slate-500 hover:text-slate-400'
+                    ? 'bg-zinc-800 text-amber-400 hover:bg-zinc-700'
+                    : 'bg-zinc-900 text-zinc-500 hover:text-zinc-400'
                 )}
               >
                 {isDone ? <Check className="w-3.5 h-3.5" /> : <span>{stepNum}</span>}
@@ -493,8 +555,9 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                   {stepNum === 3 && 'Classe'}
                   {stepNum === 4 && 'Atributos'}
                   {stepNum === 5 && 'Perícias'}
-                  {stepNum === 6 && 'Equipamento'}
-                  {stepNum === 7 && 'Revisão'}
+                  {stepNum === 6 && 'Magias'}
+                  {stepNum === 7 && 'Equipamento'}
+                  {stepNum === 8 && 'Revisão'}
                 </span>
               </button>
             );
@@ -509,16 +572,16 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* PC vs NPC */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-amber-200">Tipo de Ficha</label>
+                <label className="text-xs font-bold text-zinc-200">Tipo de Ficha</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setIsNpc(false)}
                     className={cn(
-                      'p-3 rounded-lg border flex flex-col items-center gap-1 text-xs font-serif font-bold transition-all',
+                      'p-3 rounded-lg border flex flex-col items-center gap-1 text-xs font-bold transition-all',
                       !isNpc
-                        ? 'bg-amber-500/20 border-amber-400 text-amber-200'
-                        : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-amber-500/10 border-amber-500 text-amber-400'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     )}
                   >
                     <User className="w-5 h-5 text-amber-400" />
@@ -529,10 +592,10 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                     type="button"
                     onClick={() => setIsNpc(true)}
                     className={cn(
-                      'p-3 rounded-lg border flex flex-col items-center gap-1 text-xs font-serif font-bold transition-all',
+                      'p-3 rounded-lg border flex flex-col items-center gap-1 text-xs font-bold transition-all',
                       isNpc
-                        ? 'bg-red-500/20 border-red-400 text-red-200'
-                        : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-red-500/10 border-red-500 text-red-400'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     )}
                   >
                     <Skull className="w-5 h-5 text-red-400" />
@@ -543,20 +606,20 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
 
               {/* System Switch */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-amber-200">Sistema de Regras</label>
+                <label className="text-xs font-bold text-zinc-200">Sistema de Regras</label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => handleSystemSwitch('T20')}
                     className={cn(
-                      'p-3 rounded-lg border text-left text-xs font-serif font-bold transition-all',
+                      'p-3 rounded-lg border text-left text-xs font-bold transition-all',
                       system === 'T20'
-                        ? 'bg-amber-500/20 border-amber-400 text-amber-200'
-                        : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-amber-500/10 border-amber-500 text-amber-400'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     )}
                   >
                     <div className="font-bold">Tormenta 20</div>
-                    <div className="text-[10px] font-sans text-slate-400 font-normal">
+                    <div className="text-[10px] font-sans text-zinc-400 font-normal">
                       Modificadores diretos, PM universal, defesas sem 1/2 nível.
                     </div>
                   </button>
@@ -565,14 +628,14 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                     type="button"
                     onClick={() => handleSystemSwitch('TRPG')}
                     className={cn(
-                      'p-3 rounded-lg border text-left text-xs font-serif font-bold transition-all',
+                      'p-3 rounded-lg border text-left text-xs font-bold transition-all',
                       system === 'TRPG'
-                        ? 'bg-blue-500/20 border-blue-400 text-blue-200'
-                        : 'bg-slate-900/60 border-slate-800 text-slate-400 hover:border-slate-700'
+                        ? 'bg-blue-500/10 border-blue-500 text-blue-400'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     )}
                   >
                     <div className="font-bold">TRPG Clássico</div>
-                    <div className="text-[10px] font-sans text-slate-400 font-normal">
+                    <div className="text-[10px] font-sans text-zinc-400 font-normal">
                       Atributos 3-18, BBA, graduações de perícia, CA com 1/2 nível.
                     </div>
                   </button>
@@ -583,7 +646,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
             {/* Name, Deity, Alignment */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-1.5 sm:col-span-2">
-                <label className="text-xs font-bold text-slate-300">
+                <label className="text-xs font-bold text-zinc-300">
                   Nome {isNpc ? 'da Ameaça' : 'do Personagem'} *
                 </label>
                 <input
@@ -591,17 +654,17 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                   placeholder={isNpc ? 'Ex: Bugbear Espreitador' : 'Ex: Valeros de Valkaria'}
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-md px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400"
+                  className="w-full bg-zinc-900 border border-zinc-800 rounded-md px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:border-amber-400"
                 />
               </div>
 
               {!isNpc ? (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300">Divindade Padroeira</label>
+                  <label className="text-xs font-bold text-zinc-300">Divindade Padroeira</label>
                   <select
                     value={deity}
                     onChange={(e) => setDeity(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-md px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400"
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-md px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:border-amber-400"
                   >
                     <option value="Valkaria">Valkaria (Ambição & Liberdade)</option>
                     <option value="Khalmyr">Khalmyr (Justiça & Ordem)</option>
@@ -615,11 +678,11 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                 </div>
               ) : (
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-300">Nível de Desafio (ND)</label>
+                  <label className="text-xs font-bold text-zinc-300">Nível de Desafio (ND)</label>
                   <select
                     value={threatNd}
                     onChange={(e) => setThreatNd(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-700 rounded-md px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-amber-400"
+                    className="w-full bg-zinc-900 border border-zinc-800 rounded-md px-3 py-2 text-sm text-zinc-100 focus:outline-none focus:border-amber-400"
                   >
                     <option value="1/4">ND 1/4</option>
                     <option value="1/2">ND 1/2</option>
@@ -633,37 +696,14 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                 </div>
               )}
             </div>
-
-            {isNpc && (
-              <div className="space-y-1.5">
-                <label className="text-xs font-bold text-slate-300">Papel da Ameaça</label>
-                <div className="grid grid-cols-3 gap-2">
-                  {(['Lacaio', 'Solo', 'Chefe'] as const).map((r) => (
-                    <button
-                      key={r}
-                      type="button"
-                      onClick={() => setThreatRole(r)}
-                      className={cn(
-                        'py-2 px-3 rounded border text-xs font-semibold',
-                        threatRole === r
-                          ? 'bg-red-900/40 border-red-500 text-red-200'
-                          : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
-                      )}
-                    >
-                      {r}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         )}
 
         {/* ================= STEP 2: RAÇA & ORIGEM ================= */}
         {currentStep === 2 && (
           <div className="space-y-4">
-            <p className="text-xs text-slate-400">
-              Escolha a raça do personagem. Os bônus e modificadores raciais serão aplicados automaticamente aos atributos.
+            <p className="text-xs text-zinc-400">
+              Escolha a raça do personagem. Os bônus raciais são aplicados automaticamente aos atributos.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
@@ -678,21 +718,21 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                     className={cn(
                       'p-4 rounded-lg border text-left transition-all flex flex-col justify-between',
                       isSelected
-                        ? 'bg-amber-500/20 border-amber-400 shadow-md'
-                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                        ? 'bg-amber-500/10 border-amber-500'
+                        : 'bg-zinc-900 border-zinc-800 hover:border-zinc-700'
                     )}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-serif font-bold text-amber-100 text-sm">{race.name}</span>
+                        <span className="font-bold text-zinc-100 text-sm">{race.name}</span>
                         <Badge variant="outline" className="text-[9px]">
                           {race.speed}m
                         </Badge>
                       </div>
-                      <p className="text-[11px] text-slate-400 line-clamp-2">{race.description}</p>
+                      <p className="text-[11px] text-zinc-400 line-clamp-2">{race.description}</p>
                     </div>
 
-                    <div className="mt-3 pt-2 border-t border-slate-800 flex flex-wrap gap-1">
+                    <div className="mt-3 pt-2 border-t border-zinc-800 flex flex-wrap gap-1">
                       {Object.entries(mods).map(([attr, val]) => {
                         if (val === 0) return null;
                         return (
@@ -721,7 +761,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
         {currentStep === 3 && (
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-300">Nível do Personagem:</span>
+              <span className="text-xs font-bold text-zinc-300">Nível do Personagem:</span>
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
@@ -732,7 +772,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                 >
                   -1
                 </Button>
-                <span className="text-base font-black font-mono text-amber-200 w-8 text-center">{level}</span>
+                <span className="text-base font-bold font-mono text-amber-400 w-8 text-center">{level}</span>
                 <Button
                   size="sm"
                   variant="outline"
@@ -756,31 +796,30 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                     type="button"
                     onClick={() => {
                       setSelectedClass(cls);
-                      // pre-select mandatory skills
                       setTrainedSkills((prev) => Array.from(new Set([...cls.mandatory, ...prev.slice(0, 2)])));
                     }}
                     className={cn(
                       'p-4 rounded-lg border text-left transition-all flex flex-col justify-between',
                       isSelected
-                        ? 'bg-amber-500/20 border-amber-400 shadow-md'
-                        : 'bg-slate-950/60 border-slate-800 hover:border-slate-700'
+                        ? 'bg-amber-500/10 border-amber-500'
+                        : 'bg-zinc-900 border-zinc-800 hover:border-zinc-700'
                     )}
                   >
                     <div>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="font-serif font-bold text-amber-100 text-sm">{cls.name}</span>
+                        <span className="font-bold text-zinc-100 text-sm">{cls.name}</span>
                         <Badge variant="gold" className="text-[9px]">
                           {classData.keyAttr}
                         </Badge>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-2 mt-2 text-[11px] text-slate-300 font-mono">
-                        <span className="text-red-300">PV: {classData.basePv} + CON</span>
-                        <span className="text-blue-300">PM: {classData.basePm}</span>
+                      <div className="grid grid-cols-2 gap-2 mt-2 text-[11px] text-zinc-300 font-mono">
+                        <span className="text-red-400">PV: {classData.basePv} + CON</span>
+                        <span className="text-blue-400">PM: {classData.basePm}</span>
                       </div>
                     </div>
 
-                    <div className="mt-3 pt-2 border-t border-slate-800 text-[10px] text-slate-400">
+                    <div className="mt-3 pt-2 border-t border-zinc-800 text-[10px] text-zinc-400">
                       Proficiências: {cls.armorProf}
                     </div>
                   </button>
@@ -795,42 +834,29 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
               <div>
-                <h3 className="font-serif font-bold text-amber-100 text-base">Atributos Base</h3>
-                <p className="text-xs text-slate-400">
+                <h3 className="font-bold text-zinc-100 text-base">Atributos Base</h3>
+                <p className="text-xs text-zinc-400">
                   {system === 'T20'
                     ? 'Em Tormenta 20, você compra diretamente os modificadores (-1 a +4).'
                     : 'Em TRPG, os atributos começam em 8 e variam até 18.'}
                 </p>
               </div>
 
-              {/* Point Buy Status */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-400">Pontos Utilizados:</span>
-                  <Badge variant={isBudgetValid ? 'gold' : 'arton'} className="font-mono text-xs">
-                    {pointBuyCost} / {pointBuyBudget} pts
-                  </Badge>
-                </div>
-
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => setIsPointBuy(!isPointBuy)}
-                  className="text-xs"
-                >
-                  {isPointBuy ? 'Entrada Manual' : 'Usar Pontos'}
-                </Button>
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-zinc-400">Pontos:</span>
+                <Badge variant={isBudgetValid ? 'gold' : 'arton'} className="font-mono text-xs">
+                  {pointBuyCost} / {pointBuyBudget} pts
+                </Badge>
               </div>
             </div>
 
             {!isBudgetValid && (
               <div className="bg-red-950/80 border border-red-500/50 rounded-lg p-2.5 text-xs text-red-300 flex items-center gap-2">
                 <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
-                <span>Orçamento excedido! Você ultrapassou os {pointBuyBudget} pontos de compra da edição.</span>
+                <span>Orçamento excedido! Você ultrapassou os {pointBuyBudget} pontos.</span>
               </div>
             )}
 
-            {/* Attributes Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
               {(['FOR', 'DES', 'CON', 'INT', 'SAB', 'CAR'] as AttributeKey[]).map((attr) => {
                 const baseVal = baseAttrs[attr];
@@ -840,30 +866,28 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                 const finalMod = getAttributeModifier(system, finalVal);
 
                 return (
-                  <Card key={attr} variant="tabletop" className="p-3 text-center border-slate-800">
-                    <span className="text-xs font-serif font-bold text-amber-300">{attr}</span>
+                  <Card key={attr} variant="tabletop" className="p-3 text-center border-zinc-800 bg-zinc-900">
+                    <span className="text-xs font-bold text-amber-400">{attr}</span>
 
                     <div className="my-2">
-                      <div className="text-2xl font-black font-mono text-amber-100">
+                      <div className="text-2xl font-bold font-mono text-zinc-100">
                         {system === 'T20' ? (finalVal >= 0 ? `+${finalVal}` : finalVal) : finalVal}
                       </div>
                       {system === 'TRPG' && (
-                        <span className="text-[10px] text-slate-400 font-mono">
+                        <span className="text-[10px] text-zinc-400 font-mono">
                           Mod: {finalMod >= 0 ? `+${finalMod}` : finalMod}
                         </span>
                       )}
                     </div>
 
-                    {/* Steppers */}
                     <div className="flex items-center justify-center gap-1 mt-2">
                       <Button
                         size="sm"
                         variant="outline"
                         onClick={() => {
-                          const step = 1;
                           setBaseAttrs((prev) => ({
                             ...prev,
-                            [attr]: prev[attr] - step,
+                            [attr]: prev[attr] - 1,
                           }));
                         }}
                         className="px-2 py-0 text-xs"
@@ -874,10 +898,9 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                         size="sm"
                         variant="outline"
                         onClick={() => {
-                          const step = 1;
                           setBaseAttrs((prev) => ({
                             ...prev,
-                            [attr]: prev[attr] + step,
+                            [attr]: prev[attr] + 1,
                           }));
                         }}
                         className="px-2 py-0 text-xs"
@@ -898,14 +921,14 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
           </div>
         )}
 
-        {/* ================= STEP 5: PERÍCIAS & PODERES ================= */}
+        {/* ================= STEP 5: PERÍCIAS ================= */}
         {currentStep === 5 && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="font-serif font-bold text-amber-100 text-base">Perícias Treinadas</h3>
-                <p className="text-xs text-slate-400">
-                  Perícias com treinamento recebem bônus escalonado (+2 nos níveis 1-6, +4 nos 7-14, +6 nos 15-20).
+                <h3 className="font-bold text-zinc-100 text-base">Perícias Treinadas</h3>
+                <p className="text-xs text-zinc-400">
+                  Perícias treinadas recebem bônus progressivo do sistema Tormenta.
                 </p>
               </div>
               <Badge variant="gold" className="text-xs">
@@ -926,15 +949,15 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                     className={cn(
                       'p-2 rounded border text-left text-xs transition-all flex items-center justify-between',
                       isMandatory
-                        ? 'bg-amber-500/20 border-amber-400/80 text-amber-200 cursor-default'
+                        ? 'bg-amber-500/10 border-amber-500 text-amber-300 cursor-default'
                         : isTrained
                         ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-200'
-                        : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                        : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                     )}
                   >
                     <div>
                       <div className="font-semibold">{def.namePt}</div>
-                      <span className="text-[9px] text-slate-500">{def.attribute}</span>
+                      <span className="text-[9px] text-zinc-500">{def.attribute}</span>
                     </div>
 
                     {isMandatory ? (
@@ -949,13 +972,120 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
           </div>
         )}
 
-        {/* ================= STEP 6: EQUIPAMENTO INICIAL & CARGA ================= */}
+        {/* ================= STEP 6: MAGIAS & PODERES DO COMPÊNDIO ================= */}
         {currentStep === 6 && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
+              <div>
+                <h3 className="font-bold text-zinc-100 text-base">Magias & Poderes de Classe</h3>
+                <p className="text-xs text-zinc-400">
+                  Itens carregados em tempo real da API do Compêndio Oficial de Tormenta.
+                </p>
+              </div>
+              {isLoadingApi && (
+                <div className="flex items-center gap-2 text-xs text-amber-400">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Sincronizando API...</span>
+                </div>
+              )}
+            </div>
+
+            {/* Spells Selection */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                  <BookOpen className="w-4 h-4" />
+                  Magias Disponíveis ({selectedSpells.length} selecionada(s))
+                </span>
+              </div>
+
+              {availableSpells.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                  {availableSpells.map((spell) => {
+                    const isSelected = selectedSpells.some((s) => s.name === spell.name);
+                    return (
+                      <button
+                        key={spell.id}
+                        type="button"
+                        onClick={() => handleToggleSpell(spell)}
+                        className={cn(
+                          'p-2.5 rounded border text-left text-xs transition-all flex items-start justify-between',
+                          isSelected
+                            ? 'bg-blue-950/60 border-blue-500 text-blue-200'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                        )}
+                      >
+                        <div>
+                          <div className="font-bold text-zinc-100">{spell.name}</div>
+                          <div className="text-[10px] text-zinc-400 line-clamp-1">{spell.description}</div>
+                          <div className="text-[9px] text-blue-400 font-mono mt-1">
+                            {spell.circle ? `${spell.circle}º Círculo` : 'Magia'} • Custo: {spell.cost || '1 PM'}
+                          </div>
+                        </div>
+
+                        {isSelected ? <Check className="w-4 h-4 text-blue-400 shrink-0" /> : <Plus className="w-4 h-4 text-zinc-500 shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="p-3 bg-zinc-900 border border-zinc-800 rounded text-xs text-zinc-400">
+                  Nenhuma magia encontrada no compêndio para este sistema.
+                </div>
+              )}
+            </div>
+
+            {/* Powers Selection */}
+            <div className="space-y-3 pt-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                  <Zap className="w-4 h-4" />
+                  Poderes & Habilidades ({selectedPowers.length} selecionado(s))
+                </span>
+              </div>
+
+              {availablePowers.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+                  {availablePowers.map((power) => {
+                    const isSelected = selectedPowers.some((p) => p.name === power.name);
+                    return (
+                      <button
+                        key={power.id}
+                        type="button"
+                        onClick={() => handleTogglePower(power)}
+                        className={cn(
+                          'p-2.5 rounded border text-left text-xs transition-all flex items-start justify-between',
+                          isSelected
+                            ? 'bg-amber-950/60 border-amber-500 text-amber-200'
+                            : 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:border-zinc-700'
+                        )}
+                      >
+                        <div>
+                          <div className="font-bold text-zinc-100">{power.name}</div>
+                          <div className="text-[10px] text-zinc-400 line-clamp-1">{power.description}</div>
+                        </div>
+
+                        {isSelected ? <Check className="w-4 h-4 text-amber-400 shrink-0" /> : <Plus className="w-4 h-4 text-zinc-500 shrink-0" />}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="p-3 bg-zinc-900 border border-zinc-800 rounded text-xs text-zinc-400">
+                  Nenhum poder específico retornado do compêndio.
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ================= STEP 7: EQUIPAMENTO INICIAL ================= */}
+        {currentStep === 7 && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {/* Weapons */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-amber-200">Arma Principal</label>
+                <label className="text-xs font-bold text-amber-400">Arma Principal</label>
                 <div className="space-y-1.5">
                   {WEAPONS_PRESET.map((w) => (
                     <button
@@ -965,13 +1095,13 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                       className={cn(
                         'w-full p-2.5 rounded border text-left text-xs transition-all',
                         selectedWeapon.name === w.name
-                          ? 'bg-amber-500/20 border-amber-400 text-amber-100'
-                          : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                          ? 'bg-amber-500/10 border-amber-500 text-amber-300'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                       )}
                     >
-                      <div className="font-bold">{w.name}</div>
-                      <div className="text-[10px] text-slate-400">
-                        {w.damage} {w.damageType} (Margem: {w.threatRange}-20/x{w.critMultiplier})
+                      <div className="font-bold text-zinc-100">{w.name}</div>
+                      <div className="text-[10px] text-zinc-400">
+                        {w.damage} {w.damageType} (Crítico: {w.threatRange}-20/x{w.critMultiplier})
                       </div>
                     </button>
                   ))}
@@ -980,7 +1110,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
 
               {/* Armors */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-amber-200">Armadura</label>
+                <label className="text-xs font-bold text-amber-400">Armadura</label>
                 <div className="space-y-1.5">
                   {ARMORS_PRESET.map((a) => (
                     <button
@@ -990,12 +1120,12 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                       className={cn(
                         'w-full p-2.5 rounded border text-left text-xs transition-all',
                         selectedArmor.name === a.name
-                          ? 'bg-amber-500/20 border-amber-400 text-amber-100'
-                          : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                          ? 'bg-amber-500/10 border-amber-500 text-amber-300'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                       )}
                     >
-                      <div className="font-bold">{a.name}</div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="font-bold text-zinc-100">{a.name}</div>
+                      <div className="text-[10px] text-zinc-400">
                         Defesa +{a.bonus} | Pen: {a.penalty} {a.heavy ? '| Pesada' : ''}
                       </div>
                     </button>
@@ -1005,7 +1135,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
 
               {/* Shields */}
               <div className="space-y-2">
-                <label className="text-xs font-bold text-amber-200">Escudo</label>
+                <label className="text-xs font-bold text-amber-400">Escudo</label>
                 <div className="space-y-1.5">
                   {SHIELDS_PRESET.map((s) => (
                     <button
@@ -1015,12 +1145,12 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                       className={cn(
                         'w-full p-2.5 rounded border text-left text-xs transition-all',
                         selectedShield.name === s.name
-                          ? 'bg-amber-500/20 border-amber-400 text-amber-100'
-                          : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                          ? 'bg-amber-500/10 border-amber-500 text-amber-300'
+                          : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:border-zinc-700'
                       )}
                     >
-                      <div className="font-bold">{s.name}</div>
-                      <div className="text-[10px] text-slate-400">
+                      <div className="font-bold text-zinc-100">{s.name}</div>
+                      <div className="text-[10px] text-zinc-400">
                         Defesa +{s.bonus} | Pen: {s.penalty}
                       </div>
                     </button>
@@ -1030,20 +1160,20 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
             </div>
 
             {/* Encumbrance & Defense summary preview */}
-            <div className="grid grid-cols-3 gap-3 p-3 bg-slate-950/70 border border-slate-800 rounded-lg text-center font-mono">
+            <div className="grid grid-cols-3 gap-3 p-3 bg-zinc-900 border border-zinc-800 rounded-lg text-center font-mono">
               <div>
-                <span className="text-[10px] text-slate-400 block font-sans">Defesa Calculada</span>
-                <span className="text-xl font-bold text-amber-200">{derivedPreview.defense}</span>
+                <span className="text-[10px] text-zinc-400 block font-sans">Defesa Calculada</span>
+                <span className="text-xl font-bold text-amber-400">{derivedPreview.defense}</span>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 block font-sans">Penalidade de Armadura</span>
-                <span className="text-xl font-bold text-red-300">
+                <span className="text-[10px] text-zinc-400 block font-sans">Penalidade</span>
+                <span className="text-xl font-bold text-red-400">
                   {derivedPreview.armorPenalty > 0 ? `-${derivedPreview.armorPenalty}` : '0'}
                 </span>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 block font-sans">Carga de Espaços</span>
-                <span className="text-xl font-bold text-slate-200">
+                <span className="text-[10px] text-zinc-400 block font-sans">Carga</span>
+                <span className="text-xl font-bold text-zinc-100">
                   {totalWeightSlots} / {derivedPreview.carryCapacity} slots
                 </span>
               </div>
@@ -1051,16 +1181,16 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
           </div>
         )}
 
-        {/* ================= STEP 7: REVISÃO FINAL ================= */}
-        {currentStep === 7 && (
+        {/* ================= STEP 8: REVISÃO FINAL ================= */}
+        {currentStep === 8 && (
           <div className="space-y-6">
-            <div className="p-4 bg-slate-950 border border-amber-500/30 rounded-lg space-y-4">
-              <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+            <div className="p-4 bg-zinc-900 border border-zinc-800 rounded-lg space-y-4">
+              <div className="flex justify-between items-center border-b border-zinc-800 pb-3">
                 <div>
-                  <h3 className="text-xl font-serif font-black text-amber-100">
+                  <h3 className="text-lg font-bold text-zinc-100">
                     {name.trim() || (isNpc ? `Ameaça ND ${threatNd}` : 'Herói de Arton')}
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-zinc-400">
                     {selectedRace.name} • {selectedClass.name} Nível {level} ({system})
                   </p>
                 </div>
@@ -1070,23 +1200,23 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
               {/* Core Combat Stats Summary */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                 <div className="p-3 bg-red-950/30 border border-red-500/30 rounded-lg">
-                  <span className="text-xs text-red-300 font-serif font-bold">Pontos de Vida</span>
-                  <div className="text-2xl font-black text-red-200 font-mono">{derivedPreview.pvMax}</div>
+                  <span className="text-xs text-red-400 font-bold">Pontos de Vida</span>
+                  <div className="text-2xl font-bold text-red-200 font-mono">{derivedPreview.pvMax}</div>
                 </div>
 
                 <div className="p-3 bg-blue-950/30 border border-blue-500/30 rounded-lg">
-                  <span className="text-xs text-blue-300 font-serif font-bold">Pontos de Mana</span>
-                  <div className="text-2xl font-black text-blue-200 font-mono">{derivedPreview.pmMax}</div>
+                  <span className="text-xs text-blue-400 font-bold">Pontos de Mana</span>
+                  <div className="text-2xl font-bold text-blue-200 font-mono">{derivedPreview.pmMax}</div>
                 </div>
 
                 <div className="p-3 bg-amber-950/30 border border-amber-500/30 rounded-lg">
-                  <span className="text-xs text-amber-300 font-serif font-bold">Defesa</span>
-                  <div className="text-2xl font-black text-amber-200 font-mono">{derivedPreview.defense}</div>
+                  <span className="text-xs text-amber-400 font-bold">Defesa</span>
+                  <div className="text-2xl font-bold text-amber-200 font-mono">{derivedPreview.defense}</div>
                 </div>
 
-                <div className="p-3 bg-slate-900 border border-slate-700 rounded-lg">
-                  <span className="text-xs text-slate-300 font-serif font-bold">Ataque {selectedWeapon.name}</span>
-                  <div className="text-2xl font-black text-slate-100 font-mono">
+                <div className="p-3 bg-zinc-800 border border-zinc-700 rounded-lg">
+                  <span className="text-xs text-zinc-300 font-bold">Ataque {selectedWeapon.name}</span>
+                  <div className="text-2xl font-bold text-zinc-100 font-mono">
                     {weaponBonus >= 0 ? `+${weaponBonus}` : weaponBonus}
                   </div>
                 </div>
@@ -1095,9 +1225,9 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
               {/* Attributes Snapshot */}
               <div className="grid grid-cols-6 gap-2 text-center pt-2">
                 {(['FOR', 'DES', 'CON', 'INT', 'SAB', 'CAR'] as AttributeKey[]).map((a) => (
-                  <div key={a} className="p-1.5 bg-slate-900/60 rounded border border-slate-800">
-                    <span className="text-[10px] text-slate-400 block">{a}</span>
-                    <span className="text-sm font-bold font-mono text-amber-200">
+                  <div key={a} className="p-1.5 bg-zinc-950 rounded border border-zinc-800">
+                    <span className="text-[10px] text-zinc-400 block">{a}</span>
+                    <span className="text-sm font-bold font-mono text-amber-400">
                       {finalAttrs[a] >= 0 ? `+${finalAttrs[a]}` : finalAttrs[a]}
                     </span>
                   </div>
@@ -1108,7 +1238,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
         )}
 
         {/* Footer Navigation */}
-        <div className="flex justify-between items-center mt-6 pt-4 border-t border-slate-800">
+        <div className="flex justify-between items-center mt-6 pt-4 border-t border-zinc-800">
           <Button
             type="button"
             variant="outline"
@@ -1135,7 +1265,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
               type="button"
               variant="gold"
               onClick={handleFinalize}
-              className="flex items-center gap-1.5 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-slate-950"
+              className="flex items-center gap-1.5 text-xs font-bold bg-amber-500 hover:bg-amber-400 text-zinc-950"
             >
               <Check className="w-4 h-4" />
               Concluir & Salvar Personagem

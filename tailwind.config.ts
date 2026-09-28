@@ -10,13 +10,46 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'arton-ruby': '#B91C1C',
-        'valkyr-gold': '#D4AF37',
-        'mana-sapphire': '#2563EB',
-        'parchment-base': '#FDFBF7',
-        'tabletop-slate': '#0F172A',
-        'nat20-emerald': '#16A34A',
-        'nat1-fumble': '#DC2626',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        'arton-ruby': '#EF4444',
+        'valkyr-gold': '#F59E0B',
+        'mana-sapphire': '#3B82F6',
+        'parchment-base': '#1E293B',
+        'tabletop-slate': '#0B0F19',
+        'nat20-emerald': '#10B981',
+        'nat1-fumble': '#EF4444',
         arton: {
           50: '#FEF2F2',
           100: '#FEE2E2',
@@ -37,7 +70,7 @@ const config: Config = {
           300: '#FCD34D',
           400: '#FBBF24',
           500: '#F59E0B',
-          600: '#D4AF37', // Valkyr Gold
+          600: '#D97706',
           700: '#B45309',
           800: '#92400E',
           900: '#78350F',
@@ -55,10 +88,10 @@ const config: Config = {
           900: '#1E3A8A',
         },
         parchment: {
-          light: '#FDFBF7',
-          DEFAULT: '#F7F2E7',
-          dark: '#EADBBA',
-          border: '#D5C4A1',
+          light: '#334155',
+          DEFAULT: '#1E293B',
+          dark: '#0F172A',
+          border: '#334155',
         },
         tabletop: {
           50: '#F8FAFC',
@@ -67,24 +100,30 @@ const config: Config = {
           700: '#334155',
           800: '#1E293B',
           900: '#0F172A',
-          950: '#090D16',
+          950: '#0B0F19',
         },
       },
       fontFamily: {
-        serif: ['var(--font-cinzel)', 'Cinzel', 'Georgia', 'Cambria', 'serif'],
-        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-jetbrains)', 'JetBrains Mono', 'ui-monospace', 'monospace'],
+        serif: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
-        'fantasy-card': '0 4px 20px -2px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(212, 175, 55, 0.25)',
-        'fantasy-active': '0 0 15px 2px rgba(212, 175, 55, 0.45)',
-        'crit-glow': '0 0 16px 2px rgba(34, 197, 94, 0.5)',
-        'fumble-glow': '0 0 16px 2px rgba(239, 68, 68, 0.5)',
+        'fantasy-card': 'none',
+        'fantasy-active': 'none',
+        'crit-glow': 'none',
+        'fumble-glow': 'none',
+        'flat': 'none',
       },
       backgroundImage: {
-        'parchment-pattern': 'radial-gradient(#e2d5bc 1px, transparent 1px)',
+        'parchment-pattern': 'none',
         'vtt-grid':
-          'linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)',
+          'linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)',
       },
     },
   },

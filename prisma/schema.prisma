@@ -1,12 +1,12 @@
 // Prisma Schema for TRPG Platform (Tormenta 20 & Tormenta RPG Clássico)
-// Zero-friction SQLite for local execution, ready for single-line Supabase PostgreSQL migration.
+// Configured for PostgreSQL (Vercel / Prisma Postgres / Supabase / Neon)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -58,7 +58,7 @@ model Character {
   pmMax          Int
   defense        Int       // Defesa (T20) or CA (TRPG)
 
-  // Mathematical System Payloads (Stored as JSON Strings for 100% SQLite/PG compatibility)
+  // Mathematical System Payloads (Stored as JSON Strings for 100% PG compatibility)
   attributesJson String
   skillsJson     String
   attacksJson    String
