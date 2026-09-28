@@ -4,6 +4,25 @@
 
 ---
 
+## 📚 Documentação Abrangente do Sistema (`/docs`)
+
+Acesse os manuais técnicos e guias de arquitetura detalhados na pasta [`/docs`](./docs/):
+
+1. 📐 [**Arquitetura do Sistema e DAG (`docs/ARCHITECTURE.md`)**](./docs/ARCHITECTURE.md)
+   - Visão geral, stack tecnológica, motor de cálculo reativo (DAG), discriminação multi-sistema e modelo de dados.
+2. 🌐 [**Referência de APIs Públicas REST (`docs/API_REFERENCE.md`)**](./docs/API_REFERENCE.md)
+   - Especificação completa dos endpoints `/api/characters`, `/api/scenes`, `/api/tokens`, `/api/rolls` e `/api/compendium`.
+3. 🛠️ [**Utilitários e Motor de Regras (`docs/UTILITIES_AND_HELPERS.md`)**](./docs/UTILITIES_AND_HELPERS.md)
+   - Documentação interna dos módulos `lib/rules`, `lib/dice`, `lib/vtt` e contratos TypeScript em `lib/types`.
+4. 🎯 [**Comparativo VTT (Roll20) e Roadmap Real-Time (`docs/ROLL20_COMPARISON_AND_ROADMAP.md`)**](./docs/ROLL20_COMPARISON_AND_ROADMAP.md)
+   - Matriz comparativa com Roll20 e Foundry VTT e arquitetura WebSockets/SSE para sessões de RPG virtuais ao vivo.
+5. 🚀 [**Guia de Deploy, Docker e Operações (`docs/DEPLOYMENT_AND_OPERATIONS.md`)**](./docs/DEPLOYMENT_AND_OPERATIONS.md)
+   - Execução local zero-friction, deploy em produção na Vercel com Supabase (PostgreSQL) e conteinerização Docker.
+6. 🧩 [**Extensibilidade, Plugins e Webhooks (`docs/EXTENSIBILITY_AND_PLUGINS.md`)**](./docs/EXTENSIBILITY_AND_PLUGINS.md)
+   - Conteúdos *Homebrew*, overlays para transmissões ao vivo (OBS), macros de chat, webhooks e plugins VTT.
+
+---
+
 ## 🌟 Principais Recursos
 
 ### 1. ⚔️ Motor Multi-Sistema Modular
@@ -31,7 +50,7 @@
 ### 5. 📖 Compêndio Canônico de Arton (`/compendium`)
 - Catálogo interativo com busca instantânea por nome, tipo, sistema e tags.
 - 12 entidades canônicas pré-carregadas (Raças, Classes, Magias, Poderes, Itens e Ameaças).
-- Modal com regras completas, círculos e custos de PM.
+- API REST pública `/api/compendium` para pesquisas parametrizadas na web e em aplicativos móveis.
 
 ---
 
@@ -70,7 +89,7 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🧪 Suíte de Testes Automatizados
 
-A aplicação conta com mais de **200 testes automatizados** (Tiers 1 a 4) cobrindo regras de Tormenta, analisador de dados, grid tático e persistência via Vitest.
+A aplicação conta com mais de **433 testes automatizados** cobrindo regras de Tormenta, analisador de dados, grid tático e persistência via Vitest.
 
 ```bash
 # Executa todos os testes
@@ -140,8 +159,6 @@ trpg-platform/
     ├── e2e/                 # Testes de ponta a ponta organizados em Tiers
     └── unit/                # Testes de fundação e banco de dados
 ```
-
----
 
 ## 📜 Licença e Créditos
 Este projeto foi desenvolvido como uma plataforma modular para mesas de RPG baseadas no universo de Tormenta, em conformidade com as regras oficiais de **Tormenta 20** e **Tormenta RPG** da Editora Jambô.
