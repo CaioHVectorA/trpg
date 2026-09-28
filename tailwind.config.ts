@@ -10,11 +10,44 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
         'arton-ruby': '#EF4444',
         'valkyr-gold': '#F59E0B',
         'mana-sapphire': '#3B82F6',
-        'parchment-base': '#18181B',
-        'tabletop-slate': '#09090B',
+        'parchment-base': '#1E293B',
+        'tabletop-slate': '#0B0F19',
         'nat20-emerald': '#10B981',
         'nat1-fumble': '#EF4444',
         arton: {
@@ -55,25 +88,30 @@ const config: Config = {
           900: '#1E3A8A',
         },
         parchment: {
-          light: '#27272A',
-          DEFAULT: '#18181B',
-          dark: '#09090B',
-          border: '#3F3F46',
+          light: '#334155',
+          DEFAULT: '#1E293B',
+          dark: '#0F172A',
+          border: '#334155',
         },
         tabletop: {
-          50: '#FAFAFA',
-          100: '#F4F4F5',
-          200: '#E4E4E7',
-          700: '#3F3F46',
-          800: '#27272A',
-          900: '#18181B',
-          950: '#09090B',
+          50: '#F8FAFC',
+          100: '#F1F5F9',
+          200: '#E2E8F0',
+          700: '#334155',
+          800: '#1E293B',
+          900: '#0F172A',
+          950: '#0B0F19',
         },
       },
       fontFamily: {
         serif: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
+      },
+      borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
         'fantasy-card': 'none',
