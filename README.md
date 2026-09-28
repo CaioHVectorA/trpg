@@ -106,5 +106,59 @@ npm run build
 
 ---
 
+## 🐘 Deploy & Migração para PostgreSQL (Vercel / Neon / Supabase)
+
+O esquema Prisma (`prisma/schema.prisma`) foi modelado de forma 100% universal e declarativa.
+
+### Deploy 100% Grátis na Vercel + Neon Postgres (Recomendado)
+1. Conecte o repositório na Vercel.
+2. Na aba **Storage** do seu projeto Vercel, adicione a integração **Postgres (Neon)** do Vercel Marketplace.
+3. A Vercel injetará automaticamente a variável `DATABASE_URL`.
+4. No arquivo `prisma/schema.prisma`, certifique-se de que o datasource está configurado para `postgresql`:
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+5. Execute `npm run prisma:push` e `npm run prisma:seed` no seu ambiente para sincronizar e popular o banco.
+
+### Migração para Supabase PostgreSQL
+1. Obtenha a connection string do seu projeto no Supabase (em *Project Settings -> Database*).
+2. No arquivo `.env`, altere:
+```env
+DATABASE_URL="postgresql://postgres:[SENHA]@db.[REF].supabase.co:5432/postgres?schema=public"
+```
+3. No arquivo `prisma/schema.prisma`, altere o datasource para `postgresql`.
+4. Execute `npm run prisma:push` e `npm run prisma:seed`.
+
+---
+
+## 📐 Estrutura do Código
+
+```
+trpg-platform/
+├── prisma/
+│   ├── schema.prisma        # Schema universal de entidades (Campaign, Character, Scene, Token, Compendium)
+│   └── seed.ts              # Seed canônica com entidades oficiais de Tormenta
+├── src/
+│   ├── app/                 # Next.js 14 App Router (/, /characters, /vtt, /compendium)
+│   ├── components/
+│   │   ├── dice/            # Contexto e barra visual do rolador d20
+│   │   ├── sheet/           # Gerenciador e formulário reativo de fichas
+│   │   ├── vtt/             # Canvas interativo do grid tático e iniciativa
+│   │   ├── compendium/      # Navegador e busca de regras
+│   │   ├── layout/          # Header, navegação e tema visual de Arton
+│   │   └── ui/              # Componentes de design system (Card, Button, Badge)
+│   └── lib/
+│       ├── rules/           # Motor puro de regras T20 e TRPG
+│       ├── dice/            # Parser de dados e resolução matemática de críticos
+│       ├── vtt/             # Métricas de distância e iniciativa
+│       └── types/           # Interfaces TypeScript compartilhadas
+└── tests/
+    ├── e2e/                 # Testes de ponta a ponta organizados em Tiers
+    └── unit/                # Testes de fundação e banco de dados
+```
+
 ## 📜 Licença e Créditos
 Este projeto foi desenvolvido como uma plataforma modular para mesas de RPG baseadas no universo de Tormenta, em conformidade com as regras oficiais de **Tormenta 20** e **Tormenta RPG** da Editora Jambô.
