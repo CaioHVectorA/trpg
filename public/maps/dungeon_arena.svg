@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- Floor Pattern -->
+    <pattern id="flagstone" width="60" height="60" patternUnits="userSpaceOnUse">
+      <rect width="60" height="60" fill="#131722"/>
+      <path d="M 0 0 L 60 0 M 0 60 L 60 60 M 0 0 L 0 60 M 60 0 L 60 60" stroke="#1e293b" stroke-width="2"/>
+      <rect x="2" y="2" width="26" height="26" fill="#182030" rx="2"/>
+      <rect x="32" y="2" width="26" height="26" fill="#151c2a" rx="2"/>
+      <rect x="2" y="32" width="26" height="26" fill="#161e2c" rx="2"/>
+      <rect x="32" y="32" width="26" height="26" fill="#1a2334" rx="2"/>
+      <!-- Subtle crack details -->
+      <path d="M 8 10 L 14 14 L 18 12" stroke="#0f172a" stroke-width="1" fill="none"/>
+      <path d="M 40 45 L 46 42 L 50 48" stroke="#0f172a" stroke-width="1" fill="none"/>
+    </pattern>
+
+    <!-- Torch Light Gradients -->
+    <radialGradient id="torchGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f59e0b" stop-opacity="0.8"/>
+      <stop offset="35%" stop-color="#ea580c" stop-opacity="0.4"/>
+      <stop offset="70%" stop-color="#7c2d12" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Magic Arena Circle Radial Gradient -->
+    <radialGradient id="manaCircleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.3"/>
+      <stop offset="60%" stop-color="#1d4ed8" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#1e1b4b" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Dungeon Wall Drop Shadow -->
+    <filter id="wallShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#020617" flood-opacity="0.9"/>
+    </filter>
+  </defs>
+
+  <!-- Dungeon Ground Floor -->
+  <rect width="1200" height="900" fill="url(#flagstone)"/>
+
+  <!-- Outer Walls Border -->
+  <rect x="10" y="10" width="1180" height="880" fill="none" stroke="#334155" stroke-width="20" rx="16"/>
+  <rect x="25" y="25" width="1150" height="850" fill="none" stroke="#1e293b" stroke-width="8" rx="8"/>
+
+  <!-- Arena Central Combat Circle -->
+  <circle cx="600" cy="450" r="280" fill="url(#manaCircleGlow)"/>
+  <circle cx="600" cy="450" r="280" fill="none" stroke="#d97706" stroke-width="4" stroke-dasharray="16 8"/>
+  <circle cx="600" cy="450" r="260" fill="none" stroke="#b45309" stroke-width="2"/>
+  <circle cx="600" cy="450" r="160" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="8 6"/>
+  <circle cx="600" cy="450" r="60" fill="#0f172a" stroke="#d97706" stroke-width="3"/>
+
+  <!-- Arton Ruby & Valkaria Star Symbol in Center -->
+  <polygon points="600,410 612,440 644,450 612,460 600,490 588,460 556,450 588,440" fill="#ef4444" stroke="#fcd34d" stroke-width="2"/>
+  <circle cx="600" cy="450" r="8" fill="#fbbf24"/>
+
+  <!-- Stone Pillars (with shadows) -->
+  <!-- Top-Left Pillar -->
+  <circle cx="240" cy="200" r="45" fill="#090d16" filter="url(#wallShadow)"/>
+  <circle cx="240" cy="200" r="40" fill="#334155" stroke="#475569" stroke-width="4"/>
+  <circle cx="240" cy="200" r="32" fill="#1e293b"/>
+  <circle cx="240" cy="200" r="14" fill="#475569"/>
+
+  <!-- Top-Right Pillar -->
+  <circle cx="960" cy="200" r="45" fill="#090d16" filter="url(#wallShadow)"/>
+  <circle cx="960" cy="200" r="40" fill="#334155" stroke="#475569" stroke-width="4"/>
+  <circle cx="960" cy="200" r="32" fill="#1e293b"/>
+  <circle cx="960" cy="200" r="14" fill="#475569"/>
+
+  <!-- Bottom-Left Pillar -->
+  <circle cx="240" cy="700" r="45" fill="#090d16" filter="url(#wallShadow)"/>
+  <circle cx="240" cy="700" r="40" fill="#334155" stroke="#475569" stroke-width="4"/>
+  <circle cx="240" cy="700" r="32" fill="#1e293b"/>
+  <circle cx="240" cy="700" r="14" fill="#475569"/>
+
+  <!-- Bottom-Right Pillar -->
+  <circle cx="960" cy="700" r="45" fill="#090d16" filter="url(#wallShadow)"/>
+  <circle cx="960" cy="700" r="40" fill="#334155" stroke="#475569" stroke-width="4"/>
+  <circle cx="960" cy="700" r="32" fill="#1e293b"/>
+  <circle cx="960" cy="700" r="14" fill="#475569"/>
+
+  <!-- Torches with Dynamic Glow -->
+  <!-- Torch 1 (North-West) -->
+  <circle cx="120" cy="120" r="140" fill="url(#torchGlow)"/>
+  <rect x="115" y="112" width="10" height="16" fill="#78350f" rx="2"/>
+  <circle cx="120" cy="115" r="7" fill="#fbbf24"/>
+  <circle cx="120" cy="115" r="3" fill="#ffffff"/>
+
+  <!-- Torch 2 (North-East) -->
+  <circle cx="1080" cy="120" r="140" fill="url(#torchGlow)"/>
+  <rect x="1075" y="112" width="10" height="16" fill="#78350f" rx="2"/>
+  <circle cx="1080" cy="115" r="7" fill="#fbbf24"/>
+  <circle cx="1080" cy="115" r="3" fill="#ffffff"/>
+
+  <!-- Torch 3 (South-West) -->
+  <circle cx="120" cy="780" r="140" fill="url(#torchGlow)"/>
+  <rect x="115" y="772" width="10" height="16" fill="#78350f" rx="2"/>
+  <circle cx="120" cy="775" r="7" fill="#fbbf24"/>
+  <circle cx="120" cy="775" r="3" fill="#ffffff"/>
+
+  <!-- Torch 4 (South-East) -->
+  <circle cx="1080" cy="780" r="140" fill="url(#torchGlow)"/>
+  <rect x="1075" y="772" width="10" height="16" fill="#78350f" rx="2"/>
+  <circle cx="1080" cy="775" r="7" fill="#fbbf24"/>
+  <circle cx="1080" cy="775" r="3" fill="#ffffff"/>
+
+  <!-- Subtle Bloodstain / Combat marks in arena -->
+  <path d="M 480 380 Q 500 375 515 390 Q 530 405 520 420 Q 505 435 490 425 Q 470 410 480 380 Z" fill="#881337" opacity="0.45"/>
+  <circle cx="530" cy="430" r="6" fill="#881337" opacity="0.4"/>
+  <circle cx="465" cy="425" r="4" fill="#881337" opacity="0.4"/>
+
+  <!-- Tormenta Atmospheric Text -->
+  <text x="600" y="865" text-anchor="middle" font-family="serif" font-weight="bold" font-size="16" fill="#475569" letter-spacing="4">
+    ARENA DE VALKARIA — 1 CÉLULA = 1,5M (5 PÉS)
+  </text>
+</svg>

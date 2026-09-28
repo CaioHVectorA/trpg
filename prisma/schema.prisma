@@ -1,0 +1,223 @@
+// Prisma Schema for TRPG Platform (Tormenta 20 & Tormenta RPG Clássico)
+// Zero-friction SQLite for local execution, ready for single-line Supabase PostgreSQL migration.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// 1. Campaign / Room Model
+// ==========================================
+model Campaign {
+  id            String      @id @default(cuid())
+  name          String
+  description   String?
+  system        String      @default("T20") // "T20" | "TRPG" | "BOTH"
+  activeSceneId String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  characters    Character[]
+  scenes        Scene[]
+  rollLogs      RollLog[]
+
+  @@map("campaigns")
+}
+
+// ==========================================
+// 2. Character Sheet Model (T20 & TRPG)
+// ==========================================
+model Character {
+  id             String    @id @default(cuid())
+  campaignId     String?
+  campaign       Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  
+  // System Discriminator (R1)
+  system         String    // "T20" | "TRPG"
+  isNpc          Boolean   @default(false)
+
+  // Identity & Core Info
+  name           String
+  race           String
+  class          String
+  level          Int       @default(1)
+  alignment      String?   // Classic TRPG (e.g. "Caótico e Bom") or T20 Deity/Role
+  deity          String?   // God of Arton (e.g. "Valkaria", "Khalmyr", "Arsenal")
+  avatarUrl      String?
+
+  // Primary Resource Pools (R2)
+  pvCurrent      Int
+  pvMax          Int
+  pvTemp         Int       @default(0)
+  pmCurrent      Int
+  pmMax          Int
+  defense        Int       // Defesa (T20) or CA (TRPG)
+
+  // Mathematical System Payloads (Stored as JSON Strings for 100% SQLite/PG compatibility)
+  attributesJson String
+  skillsJson     String
+  attacksJson    String
+  spellsJson     String
+  powersJson     String
+  inventoryJson  String
+  notes          String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  tokens         Token[]
+  rollLogs       RollLog[]
+
+  @@index([system])
+  @@index([campaignId])
+  @@map("characters")
+}
+
+// ==========================================
+// 3. Interactive Compendium Model (R5)
+// ==========================================
+model CompendiumItem {
+  id             String    @id @default(cuid())
+  system         String    // "T20" | "TRPG" | "ALL"
+  type           String    // "RACE" | "CLASS" | "SPELL" | "POWER" | "TALENT" | "ITEM" | "THREAT"
+  name           String
+  description    String
+  
+  // Categorization & Querying
+  category       String?   // e.g. "Arma Marcial", "Magia Divina", "Poder Geral: Combate"
+  circle         Int?      // Spell circle (1..5 in T20, 0..9 in TRPG)
+  cost           String?   // Price in T$ or PM cost
+  requirement    String?   // e.g. "FOR 1", "Nível 5"
+  
+  // System Specific Structured Stats (JSON string)
+  dataJson       String    // Damage, defense bonus, duration, enhancements, etc.
+  tags           String    // Comma-separated tags: "dano,fogo,area,evocacao"
+
+  createdAt      DateTime  @default(now())
+
+  @@index([system, type])
+  @@index([name])
+  @@map("compendium_items")
+}
+
+// ==========================================
+// 4. Tactical VTT Scene / Battlemap (R4)
+// ==========================================
+model Scene {
+  id             String      @id @default(cuid())
+  campaignId     String?
+  campaign       Campaign?   @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  name           String
+  gridWidth      Int         @default(20)  // Number of 1.5m squares horizontally
+  gridHeight     Int         @default(20)  // Number of 1.5m squares vertically
+  cellSizePx     Int         @default(50)  // Pixel size per cell on base 100% zoom
+  meterPerSquare Float       @default(1.5) // Standard 1.5m / 5ft per Tormenta cell
+
+  backgroundUrl  String?
+  gridColor      String      @default("rgba(255,255,255,0.15)")
+  gridOpacity    Float       @default(0.5)
+  fogDataJson    String?     // Stored fog of war revelation polygons/masks
+  isCurrent      Boolean     @default(false)
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  tokens         Token[]
+  initiative     InitiativeEntry[]
+
+  @@map("scenes")
+}
+
+// ==========================================
+// 5. Tactical VTT Token (R4)
+// ==========================================
+model Token {
+  id             String      @id @default(cuid())
+  sceneId        String
+  scene          Scene       @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+  
+  characterId    String?
+  character      Character?  @relation(fields: [characterId], references: [id], onDelete: SetNull)
+
+  name           String
+  x              Int         @default(0)   // Grid cell X coordinate (0-indexed)
+  y              Int         @default(0)   // Grid cell Y coordinate (0-indexed)
+  size           String      @default("MEDIUM") // "SMALL", "MEDIUM", "LARGE", "HUGE", "COLOSSAL"
+  color          String      @default("#D4AF37")
+  avatarUrl      String?
+
+  pvCurrent      Int?
+  pvMax          Int?
+  elevation      Float       @default(0.0) // Height in meters for aerial/subterranean combat
+  rotation       Int         @default(0)   // Degrees (0, 90, 180, 270)
+  
+  conditionsJson String      @default("[]")
+
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  initiativeEntry InitiativeEntry?
+
+  @@index([sceneId])
+  @@map("tokens")
+}
+
+// ==========================================
+// 6. Tactical Initiative Tracker (R4)
+// ==========================================
+model InitiativeEntry {
+  id             String    @id @default(cuid())
+  sceneId        String
+  scene          Scene     @relation(fields: [sceneId], references: [id], onDelete: Cascade)
+
+  tokenId        String?   @unique
+  token          Token?    @relation(fields: [tokenId], references: [id], onDelete: Cascade)
+
+  name           String
+  initiativeRoll Int       // Total initiative result (1d20 + Iniciativa)
+  modifier       Int       @default(0) // Dexterity / tiebreaker modifier
+  isCurrentTurn  Boolean   @default(false)
+  roundNumber    Int       @default(1)
+
+  createdAt      DateTime  @default(now())
+
+  @@index([sceneId, initiativeRoll])
+  @@map("initiative_entries")
+}
+
+// ==========================================
+// 7. Contextual Roll History (R3)
+// ==========================================
+model RollLog {
+  id             String     @id @default(cuid())
+  campaignId     String?
+  campaign       Campaign?  @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  characterId    String?
+  character      Character? @relation(fields: [characterId], references: [id], onDelete: SetNull)
+
+  senderName     String
+  system         String     @default("T20") // "T20" | "TRPG"
+  rollType       String     // "ATTACK" | "SKILL" | "DAMAGE" | "INITIATIVE" | "CUSTOM"
+  
+  expression     String     // e.g. "1d20+7 # Ataque Espada Longa"
+  diceBreakdown  String     // JSON: [{ die: 20, value: 19 }, { die: 6, value: 4 }]
+  total          Int
+  
+  isCrit         Boolean    @default(false) // Natural 20 or threat margin hit
+  isFumble       Boolean    @default(false) // Natural 1
+  threatMargin   Int        @default(20)    // Configured threat margin (e.g. 19)
+  label          String?    // "# Ataque", "# Furtividade"
+
+  timestamp      DateTime   @default(now())
+
+  @@index([campaignId])
+  @@index([timestamp])
+  @@map("roll_logs")
+}

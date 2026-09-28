@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <radialGradient id="mageBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e1b4b"/>
+    </radialGradient>
+    <linearGradient id="silverBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#93c5fd"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Base Token Circle with Arcane Border -->
+  <circle cx="50" cy="50" r="46" fill="url(#mageBg)" stroke="url(#silverBorder)" stroke-width="6"/>
+
+  <!-- Arcane Hood -->
+  <path d="M 32 45 C 32 25 40 18 50 18 C 60 18 68 25 68 45 C 68 55 60 58 50 58 C 40 58 32 55 32 45 Z" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5"/>
+
+  <!-- Glowing Eyes in Shadow -->
+  <ellipse cx="44" cy="40" rx="3" ry="1.5" fill="#38bdf8"/>
+  <ellipse cx="56" cy="40" rx="3" ry="1.5" fill="#38bdf8"/>
+
+  <!-- Robe Shoulders -->
+  <path d="M 20 82 C 24 60 36 56 50 56 C 64 56 76 60 80 82 C 65 89 35 89 20 82 Z" fill="#0f172a" stroke="#1e293b" stroke-width="2"/>
+
+  <!-- Mana Crystal / Arcane Eye Amulet -->
+  <polygon points="50,62 55,70 50,78 45,70" fill="#38bdf8" stroke="#ffffff" stroke-width="1"/>
+</svg>
