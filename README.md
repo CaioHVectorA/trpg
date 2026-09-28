@@ -4,6 +4,23 @@
 
 ---
 
+## 📚 Documentação Abrangente do Sistema (`/docs`)
+
+Acesse os manuais técnicos e guias de arquitetura detalhados na pasta [`/docs`](./docs/):
+
+1. 📐 [**Arquitetura do Sistema e DAG (`docs/ARCHITECTURE.md`)**](./docs/ARCHITECTURE.md)
+   - Visão geral, stack tecnológica, motor de cálculo reativo (DAG), discriminação multi-sistema e modelo de dados.
+2. 🌐 [**Referência de APIs Públicas REST (`docs/API_REFERENCE.md`)**](./docs/API_REFERENCE.md)
+   - Especificação completa dos endpoints `/api/characters`, `/api/scenes`, `/api/tokens`, `/api/rolls` e `/api/compendium`.
+3. 🛠️ [**Utilitários e Motor de Regras (`docs/UTILITIES_AND_HELPERS.md`)**](./docs/UTILITIES_AND_HELPERS.md)
+   - Documentação interna dos módulos `lib/rules`, `lib/dice`, `lib/vtt` e contratos TypeScript em `lib/types`.
+4. 🎯 [**Comparativo VTT (Roll20) e Roadmap Real-Time (`docs/ROLL20_COMPARISON_AND_ROADMAP.md`)**](./docs/ROLL20_COMPARISON_AND_ROADMAP.md)
+   - Matriz comparativa com Roll20 e Foundry VTT e arquitetura WebSockets/SSE para sessões de RPG virtuais ao vivo.
+5. 🚀 [**Guia de Deploy, Docker e Operações (`docs/DEPLOYMENT_AND_OPERATIONS.md`)**](./docs/DEPLOYMENT_AND_OPERATIONS.md)
+   - Execução local zero-friction, deploy em produção na Vercel com Supabase (PostgreSQL) e conteinerização Docker.
+
+---
+
 ## 🌟 Principais Recursos
 
 ### 1. ⚔️ Motor Multi-Sistema Modular
@@ -31,7 +48,7 @@
 ### 5. 📖 Compêndio Canônico de Arton (`/compendium`)
 - Catálogo interativo com busca instantânea por nome, tipo, sistema e tags.
 - 12 entidades canônicas pré-carregadas (Raças, Classes, Magias, Poderes, Itens e Ameaças).
-- Modal com regras completas, círculos e custos de PM.
+- API REST pública `/api/compendium` para pesquisas parametrizadas na web e em aplicativos móveis.
 
 ---
 
@@ -70,7 +87,7 @@ Acesse [http://localhost:3000](http://localhost:3000) no seu navegador.
 
 ## 🧪 Suíte de Testes Automatizados
 
-A aplicação conta com mais de **200 testes automatizados** (Tiers 1 a 4) cobrindo regras de Tormenta, analisador de dados, grid tático e persistência via Vitest.
+A aplicação conta com mais de **428 testes automatizados** cobrindo regras de Tormenta, analisador de dados, grid tático e persistência via Vitest.
 
 ```bash
 # Executa todos os testes
@@ -83,54 +100,6 @@ npm run test:watch
 ### Verificação de Build de Produção
 ```bash
 npm run build
-```
-
----
-
-## 🐘 Migração para Supabase / PostgreSQL
-
-O esquema Prisma (`prisma/schema.prisma`) foi modelado de forma 100% universal e declarativa. Para migrar para uma instância do Supabase PostgreSQL:
-
-1. Obtenha a connection string do seu projeto no Supabase (em *Project Settings -> Database*).
-2. No arquivo `.env`, altere:
-```env
-DATABASE_URL="postgresql://postgres:[SENHA]@db.[REF].supabase.co:5432/postgres?schema=public"
-```
-3. No arquivo `prisma/schema.prisma`, altere o datasource:
-```prisma
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-```
-4. Execute `npm run prisma:push` e `npm run prisma:seed`.
-
----
-
-## 📐 Estrutura do Código
-
-```
-trpg-platform/
-├── prisma/
-│   ├── schema.prisma        # Schema universal de entidades (Campaign, Character, Scene, Token, Compendium)
-│   └── seed.ts              # Seed canônica com entidades oficiais de Tormenta
-├── src/
-│   ├── app/                 # Next.js 14 App Router (/, /characters, /vtt, /compendium)
-│   ├── components/
-│   │   ├── dice/            # Contexto e barra visual do rolador d20
-│   │   ├── sheet/           # Gerenciador e formulário reativo de fichas
-│   │   ├── vtt/             # Canvas interativo do grid tático e iniciativa
-│   │   ├── compendium/      # Navegador e busca de regras
-│   │   ├── layout/          # Header, navegação e tema visual de Arton
-│   │   └── ui/              # Componentes de design system (Card, Button, Badge)
-│   └── lib/
-│       ├── rules/           # Motor puro de regras T20 e TRPG
-│       ├── dice/            # Parser de dados e resolução matemática de críticos
-│       ├── vtt/             # Métricas de distância e iniciativa
-│       └── types/           # Interfaces TypeScript compartilhadas
-└── tests/
-    ├── e2e/                 # Testes de ponta a ponta organizados em Tiers
-    └── unit/                # Testes de fundação e banco de dados
 ```
 
 ---
