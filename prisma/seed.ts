@@ -5,6 +5,13 @@ const prisma = new PrismaClient();
 async function main() {
   console.log('--- Initiating TRPG Platform Database Seed ---');
 
+  // Check if database is already initialized in production
+  const existingCount = await prisma.compendiumItem.count();
+  if (existingCount > 0 && process.env.NODE_ENV === 'production' && !process.env.FORCE_RESEED) {
+    console.log(`Database already initialized with ${existingCount} items. Skipping wipe in production.`);
+    return;
+  }
+
   // 1. Clean existing records (in reverse dependency order)
   await prisma.initiativeEntry.deleteMany({});
   await prisma.token.deleteMany({});
