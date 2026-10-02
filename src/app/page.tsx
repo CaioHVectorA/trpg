@@ -133,6 +133,17 @@ export default async function HomePage() {
                 Grimório &amp; Bestiário
               </Button>
             </Link>
+
+            <Link href="/knowledge">
+              <Button
+                variant="outline"
+                size="lg"
+                className="flex items-center gap-2 text-sm sm:text-base border-amber-400/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+              >
+                <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
+                Enciclopédia (6 Livros)
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -424,7 +435,7 @@ export default async function HomePage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Card 1: Grid Tático VTT */}
           <Card variant="tabletop" className="flex flex-col justify-between border-slate-800 p-6 space-y-4">
             <div className="space-y-3">
@@ -529,6 +540,45 @@ export default async function HomePage() {
               <Link href="/compendium">
                 <Button variant="mana" size="md" className="w-full font-bold">
                   Consultar Grimório
+                </Button>
+              </Link>
+            </div>
+          </Card>
+
+          {/* Card 4: Enciclopédia & 6 Livros */}
+          <Card variant="tabletop" className="flex flex-col justify-between border-slate-800 p-6 space-y-4 border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+            <div className="space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/40 flex items-center justify-center">
+                <Sparkles className="w-6 h-6 text-amber-300 animate-pulse" />
+              </div>
+              <div className="flex items-center gap-2">
+                <CardTitle className="text-xl">Enciclopédia (6 Livros)</CardTitle>
+                <Badge variant="arton" className="text-[10px]">Oficial</Badge>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                Documentação interativa baseada nos livros: Manual do Malandro, Piratas &amp; Pistoleiros,
+                O Panteão, Reinos de Moreania, Valkaria e Mundo de Arton.
+              </p>
+              <ul className="text-xs text-slate-400 space-y-1.5 pt-1">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  Dossiê completo dos 20 Deuses Maiores
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  12 Heranças Moreau &amp; Armas de Pólvora
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  Guia tático de combate, condições e PM
+                </li>
+              </ul>
+            </div>
+
+            <div className="pt-2">
+              <Link href="/knowledge">
+                <Button variant="gold" size="md" className="w-full font-bold shadow-[0_0_15px_rgba(245,158,11,0.25)]">
+                  Abrir Enciclopédia
                 </Button>
               </Link>
             </div>

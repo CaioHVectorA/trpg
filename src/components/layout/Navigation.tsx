@@ -10,7 +10,8 @@ const NAV_ITEMS = [
   { href: '/', label: 'Início', icon: Home },
   { href: '/vtt', label: 'Mesa Virtual (VTT)', icon: Map, badge: 'Ao Vivo' },
   { href: '/characters', label: 'Fichas & Heróis', icon: Shield },
-  { href: '/compendium', label: 'Grimório & Bestiário', icon: BookOpen },
+  { href: '/compendium', label: 'Grimório', icon: BookOpen },
+  { href: '/knowledge', label: 'Enciclopédia', icon: Sparkles, badge: '6 Livros' },
 ];
 
 export const Navigation: React.FC = () => {
