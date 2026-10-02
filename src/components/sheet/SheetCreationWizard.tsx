@@ -33,7 +33,9 @@ import {
   ArrowRight,
   Play,
   CheckCircle2,
-  RefreshCw
+  RefreshCw,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -618,6 +620,7 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 8;
   const [audioEnabled, setAudioEnabled] = useState(true);
+  const [isMobilePreviewOpen, setIsMobilePreviewOpen] = useState(false);
 
   // Step 1: System & Identity
   const [isNpc, setIsNpc] = useState(false);
@@ -2012,24 +2015,24 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
           </div>
         </Card>
 
-        {/* Live Hero Preview Sticky Card (4 cols) */}
-        <div className="lg:col-span-4 sticky top-6 space-y-4">
-          <Card variant="tabletop" className="p-5 border-amber-500/30 bg-[#070B16] shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-amber-500/20 pb-3">
+        {/* Live Hero Preview - Desktop Sticky Card (4 cols) */}
+        <div className="hidden lg:block lg:col-span-4 sticky top-6 space-y-4">
+          <Card variant="tabletop" className="p-4 sm:p-5 border-zinc-800 bg-zinc-900 shadow-xl space-y-4">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-3">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400 animate-spin" />
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-300 font-serif">
-                  Prévia em Tempo Real
+                <Sparkles className="w-3.5 h-3.5 text-zinc-300" />
+                <span className="text-xs font-semibold uppercase tracking-wider text-zinc-200">
+                  Resumo do Herói
                 </span>
               </div>
-              <Badge variant={system === 'T20' ? 'arton' : 'mana'} className="text-[10px]">
+              <Badge variant="outline" className="text-[10px] font-mono text-zinc-400 border-zinc-700">
                 {system}
               </Badge>
             </div>
 
             {/* Hero Card Header with Avatar */}
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-2xl bg-slate-900 border-2 border-amber-400/60 overflow-hidden shadow-lg flex items-center justify-center shrink-0">
+              <div className="w-12 h-12 rounded-xl bg-zinc-950 border border-zinc-800 overflow-hidden shadow flex items-center justify-center shrink-0">
                 <img
                   src={selectedClass.avatar || '/assets/tokens/paladin.svg'}
                   alt="Avatar"
@@ -2037,76 +2040,76 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
                 />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="font-serif font-bold text-base text-slate-100 truncate">
+                <h3 className="font-semibold text-sm text-zinc-100 truncate">
                   {name || 'Herói Sem Nome'}
                 </h3>
-                <p className="text-xs text-amber-300/80 truncate font-semibold">
+                <p className="text-xs text-zinc-400 truncate">
                   {selectedRace.name} · {selectedClass.name}
                 </p>
-                <p className="text-[11px] text-slate-400 truncate">
+                <p className="text-[11px] text-zinc-500 truncate">
                   Nível {level} · Devoto de {deity}
                 </p>
               </div>
             </div>
 
             {/* Vital Pools Bars */}
-            <div className="space-y-2 pt-1 border-t border-slate-800">
+            <div className="space-y-2 pt-1 border-t border-zinc-800">
               <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span className="text-red-400 flex items-center gap-1">
-                    <Heart className="w-3.5 h-3.5 text-red-500 fill-current" />
-                    Pontos de Vida (PV)
+                <div className="flex items-center justify-between text-xs font-medium">
+                  <span className="text-zinc-300 flex items-center gap-1">
+                    <Heart className="w-3 h-3 text-red-400 fill-current" />
+                    PV (Pontos de Vida)
                   </span>
-                  <span className="font-mono text-slate-200">{derivedPreview.pvMax} / {derivedPreview.pvMax}</span>
+                  <span className="font-mono text-zinc-200">{derivedPreview.pvMax} / {derivedPreview.pvMax}</span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-950 overflow-hidden border border-red-950">
-                  <div className="h-full bg-gradient-to-r from-red-600 to-red-400 w-full" />
+                <div className="h-1.5 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800">
+                  <div className="h-full bg-red-500 w-full" />
                 </div>
               </div>
 
               <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span className="text-sky-400 flex items-center gap-1">
-                    <Zap className="w-3.5 h-3.5 text-sky-400 fill-current" />
-                    Pontos de Mana (PM)
+                <div className="flex items-center justify-between text-xs font-medium">
+                  <span className="text-zinc-300 flex items-center gap-1">
+                    <Zap className="w-3 h-3 text-sky-400 fill-current" />
+                    PM (Pontos de Mana)
                   </span>
-                  <span className="font-mono text-slate-200">{derivedPreview.pmMax} / {derivedPreview.pmMax}</span>
+                  <span className="font-mono text-zinc-200">{derivedPreview.pmMax} / {derivedPreview.pmMax}</span>
                 </div>
-                <div className="h-2 rounded-full bg-slate-950 overflow-hidden border border-blue-950">
-                  <div className="h-full bg-gradient-to-r from-sky-600 to-blue-400 w-full" />
+                <div className="h-1.5 rounded-full bg-zinc-950 overflow-hidden border border-zinc-800">
+                  <div className="h-full bg-sky-500 w-full" />
                 </div>
               </div>
             </div>
 
             {/* Quick Combat Badges */}
             <div className="grid grid-cols-2 gap-2 text-xs pt-1">
-              <div className="p-2.5 rounded-xl bg-slate-950 border border-amber-950 flex flex-col justify-between">
-                <span className="text-[10px] text-slate-400 uppercase font-bold">Defesa / CA</span>
-                <span className="text-lg font-black font-mono text-amber-300">
+              <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 flex flex-col justify-between">
+                <span className="text-[10px] text-zinc-500 uppercase font-semibold">Defesa</span>
+                <span className="text-base font-bold font-mono text-zinc-100">
                   {derivedPreview.defense}
                 </span>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-slate-950 border border-emerald-950 flex flex-col justify-between">
-                <span className="text-[10px] text-slate-400 uppercase font-bold">Deslocamento</span>
-                <span className="text-lg font-black font-mono text-emerald-300">
+              <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 flex flex-col justify-between">
+                <span className="text-[10px] text-zinc-500 uppercase font-semibold">Deslocamento</span>
+                <span className="text-base font-bold font-mono text-zinc-100">
                   {selectedRace.speed}m ({Math.round(selectedRace.speed / 1.5)}q)
                 </span>
               </div>
             </div>
 
             {/* Attributes Grid Preview */}
-            <div className="space-y-1.5 pt-1 border-t border-slate-800">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                Atributos Finais Calculados:
+            <div className="space-y-1.5 pt-1 border-t border-zinc-800">
+              <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-400 block">
+                Atributos Finais:
               </span>
-              <div className="grid grid-cols-3 gap-1.5 font-mono text-center text-xs">
+              <div className="grid grid-cols-3 gap-1 font-mono text-center text-xs">
                 {(['FOR', 'DES', 'CON', 'INT', 'SAB', 'CAR'] as AttributeKey[]).map((k) => {
                   const val = finalAttrs[k];
                   return (
-                    <div key={k} className="p-1 rounded bg-slate-950 border border-slate-800">
-                      <span className="text-[9px] text-slate-500 block font-bold">{k}</span>
-                      <span className="text-amber-200 font-bold">
+                    <div key={k} className="p-1 rounded bg-zinc-950 border border-zinc-800">
+                      <span className="text-[9px] text-zinc-500 block font-semibold">{k}</span>
+                      <span className="text-zinc-200 font-bold">
                         {system === 'T20' ? (val > 0 ? `+${val}` : val) : val}
                       </span>
                     </div>
@@ -2116,19 +2119,90 @@ export const SheetCreationWizard: React.FC<SheetCreationWizardProps> = ({
             </div>
 
             {/* Weapon & Attack preview */}
-            <div className="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1">
-              <div className="flex items-center justify-between text-[11px] font-bold">
-                <span className="text-amber-400 flex items-center gap-1">
-                  <Sword className="w-3.5 h-3.5" />
+            <div className="p-2 rounded-lg bg-zinc-950 border border-zinc-800 text-xs space-y-0.5">
+              <div className="flex items-center justify-between text-[11px] font-semibold">
+                <span className="text-zinc-200 flex items-center gap-1">
+                  <Sword className="w-3 h-3 text-zinc-400" />
                   {selectedWeapon.name}
                 </span>
-                <span className="text-emerald-400 font-mono">+{weaponBonus} Ataque</span>
+                <span className="text-zinc-300 font-mono">+{weaponBonus} Ataque</span>
               </div>
-              <p className="text-[10px] text-slate-400 font-mono">
-                Dano: {selectedWeapon.damage} + {getAttributeModifier(system, finalAttrs.FOR)} {selectedWeapon.damageType} (Crit {selectedWeapon.threatRange}-20/x{selectedWeapon.critMultiplier})
+              <p className="text-[10px] text-zinc-400 font-mono">
+                {selectedWeapon.damage} + {getAttributeModifier(system, finalAttrs.FOR)} {selectedWeapon.damageType} (Crit {selectedWeapon.threatRange}-20/x{selectedWeapon.critMultiplier})
               </p>
             </div>
           </Card>
+        </div>
+
+        {/* Live Hero Preview - Mobile Collapsible Bottom Drawer */}
+        <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-zinc-950/95 border-t border-zinc-800 p-2.5 shadow-2xl backdrop-blur-md">
+          <div className="flex items-center justify-between max-w-lg mx-auto">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 overflow-hidden shrink-0">
+                <img
+                  src={selectedClass.avatar || '/assets/tokens/paladin.svg'}
+                  alt=""
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="font-semibold text-xs text-zinc-200 truncate">{name || 'Herói Sem Nome'}</div>
+                <div className="text-[10px] text-zinc-400 font-mono flex items-center gap-1.5">
+                  <span className="text-red-400 font-bold">{derivedPreview.pvMax} PV</span>
+                  <span>·</span>
+                  <span className="text-sky-400 font-bold">{derivedPreview.pmMax} PM</span>
+                  <span>·</span>
+                  <span>Def {derivedPreview.defense}</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsMobilePreviewOpen((prev) => !prev)}
+              className="px-2.5 py-1 rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100 text-xs font-semibold border border-zinc-800 flex items-center gap-1 shrink-0 ml-2"
+            >
+              <span>{isMobilePreviewOpen ? 'Fechar' : 'Resumo'}</span>
+              {isMobilePreviewOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          {/* Expanded Mobile Drawer */}
+          {isMobilePreviewOpen && (
+            <div className="mt-2.5 max-h-[60vh] overflow-y-auto space-y-3 pt-2 border-t border-zinc-800">
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800">
+                  <span className="text-[10px] text-zinc-500 uppercase block font-semibold">Raça / Classe</span>
+                  <span className="text-zinc-200 font-bold text-xs">{selectedRace.name} · {selectedClass.name}</span>
+                </div>
+                <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800">
+                  <span className="text-[10px] text-zinc-500 uppercase block font-semibold">Deslocamento</span>
+                  <span className="text-zinc-200 font-bold text-xs">{selectedRace.speed}m</span>
+                </div>
+              </div>
+
+              {/* Attributes in mobile */}
+              <div className="space-y-1">
+                <span className="text-[10px] font-semibold text-zinc-400 block uppercase">Atributos:</span>
+                <div className="grid grid-cols-6 gap-1 font-mono text-center text-xs">
+                  {(['FOR', 'DES', 'CON', 'INT', 'SAB', 'CAR'] as AttributeKey[]).map((k) => (
+                    <div key={k} className="p-1 rounded bg-zinc-900 border border-zinc-800">
+                      <span className="text-[9px] text-zinc-500 block font-semibold">{k}</span>
+                      <span className="text-zinc-200 font-bold">
+                        {system === 'T20' ? (finalAttrs[k] > 0 ? `+${finalAttrs[k]}` : finalAttrs[k]) : finalAttrs[k]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Weapon preview */}
+              <div className="p-2 rounded-lg bg-zinc-900 border border-zinc-800 text-xs flex items-center justify-between">
+                <span className="text-zinc-200 font-medium">{selectedWeapon.name}</span>
+                <span className="text-zinc-400 font-mono">+{weaponBonus} ({selectedWeapon.damage})</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

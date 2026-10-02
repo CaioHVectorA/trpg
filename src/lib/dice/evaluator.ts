@@ -94,6 +94,21 @@ export function evaluateDiceExpression(
     breakdown = '0';
   }
 
+  const effectiveDC = req.targetDC !== undefined ? req.targetDC : req.targetDefense;
+  let dcOutcome: 'SUCCESS' | 'CRITICAL_SUCCESS' | 'FAILURE' | 'CRITICAL_FAILURE' | undefined = undefined;
+
+  if (effectiveDC !== undefined) {
+    if (criticalOutcome.isNatural20) {
+      dcOutcome = 'CRITICAL_SUCCESS';
+    } else if (criticalOutcome.isNatural1) {
+      dcOutcome = 'CRITICAL_FAILURE';
+    } else if (total >= effectiveDC) {
+      dcOutcome = 'SUCCESS';
+    } else {
+      dcOutcome = 'FAILURE';
+    }
+  }
+
   const label = ast.label;
   const formattedOutput = `${total} (${breakdown})${label ? ` # ${label}` : ''}`;
   const timestamp = new Date().toISOString();
@@ -107,6 +122,8 @@ export function evaluateDiceExpression(
     isCriticalHit: criticalOutcome.isCriticalHit,
     isFumble: criticalOutcome.isFumble,
     isHit: criticalOutcome.isHit,
+    targetDC: req.targetDC,
+    dcOutcome,
     damageResult: criticalOutcome.damageResult,
     formattedOutput,
     breakdown,

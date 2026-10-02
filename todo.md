@@ -21,43 +21,43 @@
 ## 📌 Checklist Detalhado de Tarefas (Status & Prioridades)
 
 ### 🎨 1. UI Monocromática, Limpeza Visual & Design System
-- [ ] **1.1. Normalização da Paleta de Cores Monocromática:**
+- [x] **1.1. Normalização da Paleta de Cores Monocromática:**
   - Substituir gradientes multicores e neons (vermelhos, amarelos e azuis brilhantes juntos) por uma paleta sóbria de pretos, chumbo, cinzas e acentos em branco/off-white de alto contraste (estilo Foundry VTT / Obsidian / Linear).
   - Manter distinção visual funcional apenas em badges de perigo/alerta crítico, sem poluição visual.
-- [ ] **1.2. Refatoração dos Componentes Base (`src/components/ui`):**
+- [x] **1.2. Refatoração dos Componentes Base (`src/components/ui`):**
   - Ajustar `Card`, `Button`, `Badge`, `Input` e modais para estética monocromática com bordas sutis (`border-zinc-800` / `border-zinc-700`).
   - Reduzir sombras e brilhos neon volumosos (`shadow-[0_0_50px_...]`) para sombras naturais e discretas de profundidade.
-- [ ] **1.3. Limpeza Tipográfica e Hierarquia Visual:**
+- [x] **1.3. Limpeza Tipográfica e Hierarquia Visual:**
   - Ajustar títulos em fontes serifadas clássicas e texto funcional em sans-serif limpa com entrelinha confortável.
   - Eliminar poluição visual nas páginas iniciais e cabeçalhos.
 
 ---
 
 ### 📱 2. Responsividade Global (Mobile, Tablet & Desktop)
-- [ ] **2.1. Responsividade da Forja de Fichas (`SheetCreationWizard`):**
+- [x] **2.1. Responsividade da Forja de Fichas (`SheetCreationWizard`):**
   - Transformar a gaveta flutuante de pré-visualização (`Live Hero Drawer`) em componente retrátil ou sanfonado em telas menores que 1024px para não cobrir o formulário.
   - Reorganizar grids de seleção de raças, classes e atributos para 1 coluna no mobile e 2 a 3 colunas em desktop.
   - Garantir que a barra de passos do wizard quebre a linha suavemente ou use scroll horizontal sem cortes.
 - [ ] **2.2. Responsividade da Mesa Virtual (`/vtt`):**
   - Adaptar o painel de iniciativa, ferramentas de régua e biblioteca de tokens para gavetas deslizantes laterais em telas mobile/tablet.
   - Suporte a gestos touch (pinch-to-zoom e drag) no grid tático.
-- [ ] **2.3. Responsividade da Enciclopédia & Compêndio (`/knowledge` e `/compendium`):**
+- [x] **2.3. Responsividade da Enciclopédia & Compêndio (`/knowledge` e `/compendium`):**
   - Adicionar scroll horizontal suave com indicação visual para tabelas de armas de fogo, materiais e condições.
   - Menu de navegação por tomos com seletor drop-down ou carrossel deslizante em smartphones.
-- [ ] **2.4. Navegação Geral (`Navigation.tsx` e `AppHeader.tsx`):**
+- [x] **2.4. Navegação Geral (`Navigation.tsx` e `AppHeader.tsx`):**
   - Menu hambúrguer limpo e acessível em mobile, exibindo Início, VTT, Fichas, Compêndio e Docs sem quebrar a barra superior.
 
 ---
 
 ### 🎲 3. Rolador de Dados em Tabs (Simples & Customizado com CD)
-- [ ] **3.1. Reestruturação do Drawer do Rolador (`DiceRollerBar.tsx`):**
+- [x] **3.1. Reestruturação do Drawer do Rolador (`DiceRollerBar.tsx`):**
   - Adicionar controle de tabs com design monocromático no topo do painel: `[ Rápido / Comando ]` e `[ Construtor Customizado ]`.
-- [ ] **3.2. Tab 1: Dado Simples & Comando Rápido:**
+- [x] **3.2. Tab 1: Dado Simples & Comando Rápido:**
   - Input minimalista para comandos de texto (ex: `1d20+7`, `3d6+2`, `/r 1d20+12 # Teste de Atletismo`).
   - Barra de botões de dados rápidos de 1 clique: `d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `d100`.
   - Botões auxiliares de modificadores imediatos: `+1`, `+2`, `+5`, `-1`, `-2` e botão de limpar.
   - Atalho de teclado (tecla `Enter`) e foco automático no input.
-- [ ] **3.3. Tab 2: Construtor Customizado com CD & Opções:**
+- [x] **3.3. Tab 2: Construtor Customizado com CD & Opções:**
   - **Quantidade de Dados:** Seletor numérico de 1 a 20 dados.
   - **Tipo de Dado:** Dropdown/botões para d4, d6, d8, d10, d12, d20, d100.
   - **Modificador Fixo:** Campo numérico para bônus/penalidades (+/-).
@@ -66,7 +66,7 @@
   - **Vantagem / Desvantagem:** Opção para rolar 2d20 e ficar com o maior (`kh1`) ou menor (`kl1`).
   - **Margem de Ameaça e Multiplicador de Crítico:** Ajuste de crítico (ex: 19-20 / x3).
   - **Rótulo & Tipo de Dano:** Campo de descrição do teste (ex: "Ataque com Espada", "Misticismo", "Bola de Fogo").
-- [ ] **3.4. Histórico e Modal de Detalhes:**
+- [x] **3.4. Histórico e Modal de Detalhes:**
   - Exibição limpa em lista monocromática com detalhes dos dados individuais rolados, modificador e status contra a CD.
 
 ---

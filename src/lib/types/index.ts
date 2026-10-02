@@ -54,6 +54,7 @@ export interface DiceRollRequest {
   system?: SystemMode;
   pmInvested?: number;
   targetDefense?: number;
+  targetDC?: number;            // Target Difficulty Class (CD)
   isRangedAttack?: boolean;
 }
 
@@ -66,6 +67,8 @@ export interface DiceRollResult {
   isCriticalHit: boolean;
   isFumble: boolean;
   isHit?: boolean;
+  targetDC?: number;
+  dcOutcome?: 'SUCCESS' | 'CRITICAL_SUCCESS' | 'FAILURE' | 'CRITICAL_FAILURE';
   damageResult?: {
     diceTotal: number;
     staticBonus: number;

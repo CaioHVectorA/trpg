@@ -65,83 +65,73 @@ export default async function HomePage() {
 
   return (
     <div className="flex-1 py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-2xl border-2 border-amber-500/30 bg-gradient-to-b from-[#131B2E] via-[#0B101D] to-[#070A12] p-6 sm:p-12 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
-        {/* Ambient atmospheric glows */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-3xl space-y-5">
+      {/* Hero Section - Monochromatic & Minimalist */}
+      <section className="relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950 p-6 sm:p-10 shadow-xl">
+        <div className="relative z-10 max-w-3xl space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="arton" className="text-xs flex items-center gap-1.5 py-1 px-3 shadow-md">
-              <Flame className="w-3.5 h-3.5 text-red-300 animate-pulse" />
-              Tormenta 20 (Jogo do Ano)
+            <Badge variant="outline" className="text-xs font-mono text-zinc-300 border-zinc-700">
+              Tormenta 20 (Jogo do Ano) &amp; TRPG
             </Badge>
-            <Badge variant="gold" className="text-xs flex items-center gap-1.5 py-1 px-3 shadow-md">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              Tormenta RPG Clássico (TRPG)
-            </Badge>
-            <Badge variant="outline" className="text-xs border-amber-500/40 text-amber-300 py-1 px-3">
+            <Badge variant="arton" className="text-xs font-mono text-zinc-300 border-zinc-800 bg-zinc-900">
               Mesa Virtual Integrada
             </Badge>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-serif font-black tracking-tight text-slate-100 leading-tight">
-            A Mesa Virtual Definitiva de{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-yellow-300">
+          <h1 className="text-3xl sm:text-5xl font-serif font-black tracking-tight text-zinc-100 leading-tight">
+            A Mesa Virtual de{' '}
+            <span className="text-white underline decoration-zinc-700 underline-offset-8">
               Tormenta
             </span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-slate-300 leading-relaxed font-sans max-w-2xl">
+          <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed font-sans max-w-2xl">
             Projetada para mestres e jogadores viverem as maiores sagas de Arton. Grid tático oficial (1,5m),
-            fichas dinâmicas com motor de regras automatizado, rolador d20 de alta precisão com margem de ameaça e
+            fichas dinâmicas com motor de regras automatizado, rolador d20 com verificação de CD e
             compêndio oficial com raças, classes, magias e monstros.
           </p>
 
-          <div className="flex flex-wrap items-center gap-4 pt-3">
+          <div className="flex flex-wrap items-center gap-2.5 pt-2">
             <Link href="/vtt">
               <Button
-                variant="arton"
-                size="lg"
-                className="flex items-center gap-2.5 text-sm sm:text-base font-bold shadow-[0_0_25px_rgba(220,38,38,0.5)] hover:shadow-[0_0_35px_rgba(220,38,38,0.7)] transform hover:-translate-y-0.5 transition-all"
+                size="md"
+                className="flex items-center gap-2 text-xs sm:text-sm font-semibold bg-zinc-100 text-zinc-950 hover:bg-zinc-200 border border-zinc-300 shadow-sm"
               >
-                <Play className="w-4 h-4 fill-current text-white" />
-                Entrar no Grid Tático (VTT)
-                <ArrowRight className="w-4 h-4" />
+                <Play className="w-3.5 h-3.5 fill-current" />
+                <span>Entrar no VTT</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
 
             <Link href="/characters">
               <Button
-                variant="gold"
-                size="lg"
-                className="flex items-center gap-2 text-sm sm:text-base font-bold shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] transform hover:-translate-y-0.5 transition-all"
+                variant="outline"
+                size="md"
+                className="flex items-center gap-2 text-xs sm:text-sm font-semibold bg-zinc-900 text-zinc-100 hover:bg-zinc-800 border-zinc-700"
               >
-                <Shield className="w-4 h-4" />
-                Criar / Gerenciar Fichas
+                <Shield className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Criar Fichas</span>
               </Button>
             </Link>
 
             <Link href="/compendium">
               <Button
                 variant="outline"
-                size="lg"
-                className="flex items-center gap-2 text-sm sm:text-base border-amber-500/40 text-amber-200 hover:bg-amber-500/10"
+                size="md"
+                className="flex items-center gap-2 text-xs sm:text-sm border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
               >
-                <BookOpen className="w-4 h-4 text-amber-400" />
-                Grimório &amp; Bestiário
+                <BookOpen className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Grimório &amp; Bestiário</span>
               </Button>
             </Link>
 
             <Link href="/knowledge">
               <Button
                 variant="outline"
-                size="lg"
-                className="flex items-center gap-2 text-sm sm:text-base border-amber-400/50 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.2)]"
+                size="md"
+                className="flex items-center gap-2 text-xs sm:text-sm border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-900"
               >
-                <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
-                Enciclopédia (6 Livros)
+                <Sparkles className="w-3.5 h-3.5 text-zinc-400" />
+                <span>Enciclopédia (6 Livros)</span>
               </Button>
             </Link>
           </div>
