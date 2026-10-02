@@ -6,33 +6,33 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
 
-    --card: 222.2 84% 6.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 240 10% 4.9%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222.2 84% 6.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 240 10% 4.9%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 48%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
 
     --radius: 0.5rem;
 
@@ -40,12 +40,8 @@
   }
 
   body {
-    background-color: #070A12;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(185, 28, 28, 0.08) 0%, transparent 50%),
-      radial-gradient(circle at 85% 15%, rgba(217, 119, 6, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 15% 35%, rgba(37, 99, 235, 0.04) 0%, transparent 40%);
-    color: #F8FAFC;
+    background-color: #09090b;
+    color: #f4f4f5;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -59,50 +55,48 @@
 }
 
 @layer components {
-  /* High-Fantasy Tabletop Card Primitive */
+  /* High-Fantasy Tabletop Card Primitive (Subtle & Monochromatic) */
   .fantasy-card {
-    @apply bg-[#0D1322] border border-amber-500/25 rounded-xl shadow-2xl transition-all duration-200;
+    @apply bg-zinc-900 border border-zinc-800 rounded-xl transition-all duration-200;
   }
 
   .fantasy-card:hover {
-    @apply border-amber-400/50 shadow-[0_0_25px_rgba(245,158,11,0.12)];
+    @apply border-zinc-700 shadow-md;
   }
 
   .parchment-card {
-    background: linear-gradient(145deg, #101626 0%, #0B0F19 100%);
-    color: #F8FAFC;
-    border: 1px solid rgba(245, 158, 11, 0.25);
+    background-color: #18181b;
+    color: #f4f4f5;
+    border: 1px solid #27272a;
     border-radius: 0.75rem;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.7), 0 0 15px rgba(245, 158, 11, 0.05);
   }
 
-  /* Foil Gold and Ruby Text Gradients */
+  /* Text Gradients */
   .text-gold-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 font-bold;
+    @apply text-zinc-100 font-bold;
   }
 
   .text-ruby-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-red-400 via-rose-500 to-red-600 font-bold;
+    @apply text-zinc-100 font-bold;
   }
 
   .text-mana-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-sky-300 via-blue-400 to-indigo-500 font-bold;
+    @apply text-zinc-100 font-bold;
   }
 
-  /* Custom Tabletop Scrollbar */
+  /* Custom Clean Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #070A12;
+    background: #09090b;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1E293B;
+    background: #27272a;
     border-radius: 3px;
-    border: 1px solid rgba(245, 158, 11, 0.2);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #D97706;
+    background: #3f3f46;
   }
 }
