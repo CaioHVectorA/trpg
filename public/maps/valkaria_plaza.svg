@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- Stone Pavers Pattern -->
+    <pattern id="valkariaCobble" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#1e293b"/>
+      <path d="M 0 0 L 80 0 M 0 80 L 80 80 M 0 0 L 0 80 M 80 0 L 80 80" stroke="#0f172a" stroke-width="2"/>
+      <rect x="3" y="3" width="35" height="35" fill="#334155" rx="3"/>
+      <rect x="42" y="3" width="35" height="35" fill="#1e293b" rx="3"/>
+      <rect x="3" y="42" width="35" height="35" fill="#1e293b" rx="3"/>
+      <rect x="42" y="42" width="35" height="35" fill="#334155" rx="3"/>
+    </pattern>
+
+    <!-- Divine Golden Aura of Valkaria -->
+    <radialGradient id="valkariaAura" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.45"/>
+      <stop offset="40%" stop-color="#f59e0b" stop-opacity="0.25"/>
+      <stop offset="80%" stop-color="#d97706" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Water Basin Gradient -->
+    <radialGradient id="fountainWater" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0369a1" stop-opacity="0.9"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Paved Ground -->
+  <rect width="1200" height="900" fill="url(#valkariaCobble)"/>
+
+  <!-- Plaza Outer Border with Marble Steps -->
+  <rect x="20" y="20" width="1160" height="860" fill="none" stroke="#64748b" stroke-width="16" rx="24"/>
+  <rect x="40" y="40" width="1120" height="820" fill="none" stroke="#e2e8f0" stroke-width="4" rx="18"/>
+
+  <!-- Grand Central Plaza Rotunda -->
+  <circle cx="600" cy="450" r="340" fill="url(#valkariaAura)"/>
+  <circle cx="600" cy="450" r="300" fill="none" stroke="#ca8a04" stroke-width="4"/>
+  <circle cx="600" cy="450" r="280" fill="none" stroke="#eab308" stroke-width="2" stroke-dasharray="16 10"/>
+
+  <!-- The Great Pedestal of Valkaria (Center) -->
+  <polygon points="600,260 760,350 760,550 600,640 440,550 440,350" fill="#475569" stroke="#ca8a04" stroke-width="6"/>
+  <circle cx="600" cy="450" r="110" fill="#1e293b" stroke="#facc15" stroke-width="4"/>
+
+  <!-- Colossal Statue Base & Shadow -->
+  <ellipse cx="600" cy="450" rx="70" ry="40" fill="#0f172a" opacity="0.6"/>
+  <!-- Valkaria Insignia: The Silver Rose / Freedom Symbol in Golden Filigree -->
+  <circle cx="600" cy="450" r="50" fill="#d97706" stroke="#fef08a" stroke-width="3"/>
+  <polygon points="600,410 612,438 642,450 612,462 600,490 588,462 558,450 588,438" fill="#fef08a"/>
+
+  <!-- Four Royal Fountains (Corner plazas) -->
+  <!-- Top Left Fountain -->
+  <circle cx="200" cy="200" r="60" fill="url(#fountainWater)" stroke="#94a3b8" stroke-width="6"/>
+  <circle cx="200" cy="200" r="20" fill="#e2e8f0" stroke="#0284c7" stroke-width="3"/>
+
+  <!-- Top Right Fountain -->
+  <circle cx="1000" cy="200" r="60" fill="url(#fountainWater)" stroke="#94a3b8" stroke-width="6"/>
+  <circle cx="1000" cy="200" r="20" fill="#e2e8f0" stroke="#0284c7" stroke-width="3"/>
+
+  <!-- Bottom Left Fountain -->
+  <circle cx="200" cy="700" r="60" fill="url(#fountainWater)" stroke="#94a3b8" stroke-width="6"/>
+  <circle cx="200" cy="700" r="20" fill="#e2e8f0" stroke="#0284c7" stroke-width="3"/>
+
+  <!-- Bottom Right Fountain -->
+  <circle cx="1000" cy="700" r="60" fill="url(#fountainWater)" stroke="#94a3b8" stroke-width="6"/>
+  <circle cx="1000" cy="700" r="20" fill="#e2e8f0" stroke="#0284c7" stroke-width="3"/>
+
+  <!-- Guild and Order Banners -->
+  <rect x="360" y="50" width="30" height="90" fill="#dc2626" rx="4"/>
+  <rect x="810" y="50" width="30" height="90" fill="#2563eb" rx="4"/>
+  <rect x="360" y="760" width="30" height="90" fill="#16a34a" rx="4"/>
+  <rect x="810" y="760" width="30" height="90" fill="#ca8a04" rx="4"/>
+
+  <!-- Adventurer Guild Stalls & Marble Pillars -->
+  <rect x="100" y="380" width="50" height="140" fill="#78350f" stroke="#a16207" stroke-width="3" rx="6"/>
+  <rect x="1050" y="380" width="50" height="140" fill="#78350f" stroke="#a16207" stroke-width="3" rx="6"/>
+</svg>

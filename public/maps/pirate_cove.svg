@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- Dark Ocean Water Pattern -->
+    <pattern id="oceanWater" width="100" height="100" patternUnits="userSpaceOnUse">
+      <rect width="100" height="100" fill="#082f49"/>
+      <path d="M 0 25 Q 25 15 50 25 T 100 25" stroke="#0369a1" stroke-width="2" fill="none" opacity="0.4"/>
+      <path d="M 0 50 Q 25 40 50 50 T 100 50" stroke="#0284c7" stroke-width="1.5" fill="none" opacity="0.3"/>
+      <path d="M 0 75 Q 25 65 50 75 T 100 75" stroke="#075985" stroke-width="2" fill="none" opacity="0.5"/>
+    </pattern>
+
+    <!-- Wood Deck Planks Pattern -->
+    <pattern id="woodPlanks" width="80" height="24" patternUnits="userSpaceOnUse">
+      <rect width="80" height="24" fill="#78350f"/>
+      <line x1="0" y1="24" x2="80" y2="24" stroke="#451a03" stroke-width="2"/>
+      <line x1="40" y1="0" x2="40" y2="24" stroke="#451a03" stroke-width="1.5"/>
+      <rect x="2" y="2" width="36" height="20" fill="#92400e" opacity="0.7"/>
+      <rect x="42" y="2" width="36" height="20" fill="#b45309" opacity="0.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Ocean Base -->
+  <rect width="1200" height="900" fill="url(#oceanWater)"/>
+
+  <!-- Stone Harbor Pier (Left Side) -->
+  <rect x="0" y="0" width="350" height="900" fill="#334155" stroke="#1e293b" stroke-width="10"/>
+  <line x1="350" y1="0" x2="350" y2="900" stroke="#0f172a" stroke-width="8"/>
+
+  <!-- Wooden Docks / Pier Extensions into Sea -->
+  <rect x="350" y="150" width="220" height="100" fill="url(#woodPlanks)" stroke="#451a03" stroke-width="4"/>
+  <rect x="350" y="550" width="220" height="100" fill="url(#woodPlanks)" stroke="#451a03" stroke-width="4"/>
+
+  <!-- Pirate Galleon Hull (Docked right side) -->
+  <!-- Galleon outline -->
+  <path d="M 600 120 C 750 80 1000 80 1120 180 C 1170 300 1170 600 1120 720 C 1000 820 750 820 600 780 C 550 650 550 250 600 120 Z" fill="url(#woodPlanks)" stroke="#291205" stroke-width="10"/>
+
+  <!-- Galleon Raised Stern Castle -->
+  <path d="M 1000 180 C 1080 240 1150 350 1150 450 C 1150 550 1080 660 1000 720 Z" fill="#581c87" opacity="0.3" stroke="#451a03" stroke-width="4"/>
+
+  <!-- Galleon Masts & Rigging -->
+  <!-- Fore-mast -->
+  <circle cx="720" cy="450" r="14" fill="#451a03"/>
+  <line x1="720" y1="200" x2="720" y2="700" stroke="#fcd34d" stroke-width="3" stroke-dasharray="8 6"/>
+  <!-- Main-mast -->
+  <circle cx="880" cy="450" r="18" fill="#451a03"/>
+  <line x1="880" y1="150" x2="880" y2="750" stroke="#fcd34d" stroke-width="4" stroke-dasharray="10 8"/>
+  <!-- Crow's nest ring -->
+  <circle cx="880" cy="450" r="35" fill="none" stroke="#f59e0b" stroke-width="2"/>
+
+  <!-- Cannons along starboard -->
+  <rect x="650" y="140" width="12" height="35" fill="#0f172a" rx="2" transform="rotate(-15 650 140)"/>
+  <rect x="770" y="115" width="12" height="35" fill="#0f172a" rx="2"/>
+  <rect x="890" y="115" width="12" height="35" fill="#0f172a" rx="2"/>
+  <rect x="650" y="725" width="12" height="35" fill="#0f172a" rx="2" transform="rotate(15 650 725)"/>
+  <rect x="770" y="750" width="12" height="35" fill="#0f172a" rx="2"/>
+  <rect x="890" y="750" width="12" height="35" fill="#0f172a" rx="2"/>
+
+  <!-- Cargo Crates and Powder Kegs on Harbor -->
+  <!-- Powder kegs (red with warning) -->
+  <circle cx="120" cy="180" r="18" fill="#991b1b" stroke="#7f1d1d" stroke-width="2"/>
+  <circle cx="150" cy="200" r="18" fill="#991b1b" stroke="#7f1d1d" stroke-width="2"/>
+  <circle cx="130" cy="225" r="18" fill="#991b1b" stroke="#7f1d1d" stroke-width="2"/>
+  <!-- Wooden crates -->
+  <rect x="80" y="400" width="50" height="50" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+  <line x1="80" y1="400" x2="130" y2="450" stroke="#451a03" stroke-width="1.5"/>
+  <rect x="140" y="410" width="45" height="45" fill="#854d0e" stroke="#451a03" stroke-width="2"/>
+  <rect x="100" y="470" width="60" height="40" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+
+  <!-- Mooring Ropes / Gangplanks Connecting Pier to Ship -->
+  <rect x="520" y="170" width="140" height="24" fill="#b45309" stroke="#451a03" stroke-width="2" transform="rotate(10 520 170)"/>
+  <rect x="520" y="580" width="140" height="24" fill="#b45309" stroke="#451a03" stroke-width="2" transform="rotate(-10 520 580)"/>
+</svg>

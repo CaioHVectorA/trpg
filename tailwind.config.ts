@@ -104,7 +104,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        serif: ['Cinzel', 'Georgia', 'serif'],
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         mono: ['JetBrains Mono', 'ui-monospace', 'monospace'],
       },
@@ -114,10 +114,12 @@ const config: Config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
-        'fantasy-card': 'none',
-        'fantasy-active': 'none',
-        'crit-glow': 'none',
-        'fumble-glow': 'none',
+        'fantasy-card': '0 8px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(245, 158, 11, 0.08)',
+        'fantasy-active': '0 0 30px rgba(245, 158, 11, 0.25), 0 0 15px rgba(239, 68, 68, 0.15)',
+        'crit-glow': '0 0 30px rgba(16, 185, 129, 0.7), 0 0 60px rgba(245, 158, 11, 0.4)',
+        'fumble-glow': '0 0 30px rgba(239, 68, 68, 0.7), 0 0 60px rgba(185, 28, 28, 0.5)',
+        'arton-glow': '0 0 30px rgba(220, 38, 38, 0.35)',
+        'gold-glow': '0 0 25px rgba(245, 158, 11, 0.35)',
         'flat': 'none',
       },
       backgroundImage: {

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <radialGradient id="assassinBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4c1d95"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <linearGradient id="purpleGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="50%" stop-color="#7e22ce"/>
+      <stop offset="100%" stop-color="#3b0764"/>
+    </linearGradient>
+  </defs>
+  <!-- Ring -->
+  <circle cx="50" cy="50" r="46" fill="url(#assassinBg)" stroke="url(#purpleGlow)" stroke-width="6"/>
+  <!-- Deep Hood -->
+  <path d="M 50 18 C 30 20 28 42 28 54 C 36 50 44 48 50 48 C 56 48 64 50 72 54 C 72 42 70 20 50 18 Z" fill="#18181b" stroke="#581c87" stroke-width="1.5"/>
+  <!-- Shadow Face -->
+  <ellipse cx="50" cy="40" rx="14" ry="12" fill="#09090b"/>
+  <!-- Glowing Violet Eyes -->
+  <ellipse cx="44" cy="38" rx="2" ry="2.5" fill="#d8b4fe"/>
+  <ellipse cx="56" cy="38" rx="2" ry="2.5" fill="#d8b4fe"/>
+  <!-- Dark Cloak -->
+  <path d="M 22 84 C 26 62 36 54 50 54 C 64 54 74 62 78 84 C 64 88 36 88 22 84 Z" fill="#27272a" stroke="#7e22ce" stroke-width="1.5"/>
+  <!-- Poison-dripping Dagger Cross -->
+  <polygon points="50,60 52,76 50,78 48,76" fill="#cbd5e1"/>
+  <rect x="44" y="65" width="12" height="2" fill="#a855f7"/>
+  <circle cx="50" cy="80" r="1.5" fill="#22c55e"/>
+</svg>

@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- Red Chitin Ground Pattern -->
+    <pattern id="chitinGround" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#180505"/>
+      <path d="M 0 0 L 80 0 M 0 80 L 80 80 M 0 0 L 0 80 M 80 0 L 80 80" stroke="#450a0a" stroke-width="2"/>
+      <polygon points="10,10 35,5 30,35 5,30" fill="#2a0808"/>
+      <polygon points="45,10 75,15 70,40 40,35" fill="#380d0d"/>
+      <polygon points="15,45 40,40 35,75 5,70" fill="#2f0a0a"/>
+      <polygon points="45,45 75,50 70,75 40,70" fill="#330b0b"/>
+      <!-- Acid veins -->
+      <path d="M 0 40 Q 20 45 40 40 T 80 45" stroke="#7f1d1d" stroke-width="1.5" fill="none"/>
+      <path d="M 40 0 Q 45 20 40 40 T 45 80" stroke="#991b1b" stroke-width="1.5" fill="none"/>
+    </pattern>
+
+    <!-- Tempestade Rubra Sky / Fog Radial Gradient -->
+    <radialGradient id="rubraAtmosphere" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.25"/>
+      <stop offset="45%" stop-color="#b91c1c" stop-opacity="0.15"/>
+      <stop offset="80%" stop-color="#450a0a" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#180303" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Acid Pool Gradient -->
+    <radialGradient id="acidPool" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f87171" stop-opacity="0.7"/>
+      <stop offset="40%" stop-color="#dc2626" stop-opacity="0.5"/>
+      <stop offset="85%" stop-color="#7f1d1d" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#450a0a" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="corrosionGlow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ground -->
+  <rect width="1200" height="900" fill="url(#chitinGround)"/>
+
+  <!-- Chitin Border Walls -->
+  <rect x="12" y="12" width="1176" height="876" fill="none" stroke="#7f1d1d" stroke-width="20" rx="16"/>
+  <rect x="26" y="26" width="1148" height="848" fill="none" stroke="#450a0a" stroke-width="8" rx="8"/>
+
+  <!-- Acid Corrosion Pools -->
+  <!-- Center Pool -->
+  <ellipse cx="600" cy="450" rx="240" ry="180" fill="url(#acidPool)"/>
+  <circle cx="600" cy="450" r="160" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="14 8" opacity="0.8"/>
+  <circle cx="600" cy="450" r="100" fill="none" stroke="#f87171" stroke-width="2" stroke-dasharray="8 6" opacity="0.6"/>
+
+  <!-- Corrupted Spire / Obelisk in Center -->
+  <polygon points="600,380 620,440 650,450 620,460 600,520 580,460 550,450 580,440" fill="#991b1b" stroke="#fca5a5" stroke-width="2"/>
+  <circle cx="600" cy="450" r="16" fill="#ef4444" filter="url(#corrosionGlow)"/>
+
+  <!-- Left Acid Chasm -->
+  <ellipse cx="220" cy="260" rx="120" ry="80" fill="url(#acidPool)"/>
+  <!-- Right Acid Chasm -->
+  <ellipse cx="980" cy="640" rx="130" ry="90" fill="url(#acidPool)"/>
+
+  <!-- Spiky Chitin Pillars -->
+  <!-- Top Left -->
+  <circle cx="300" cy="180" r="36" fill="#450a0a" stroke="#b91c1c" stroke-width="4"/>
+  <polygon points="300,135 292,150 308,150" fill="#ef4444"/>
+  <!-- Top Right -->
+  <circle cx="900" cy="200" r="36" fill="#450a0a" stroke="#b91c1c" stroke-width="4"/>
+  <polygon points="900,155 892,170 908,170" fill="#ef4444"/>
+  <!-- Bottom Left -->
+  <circle cx="280" cy="720" r="36" fill="#450a0a" stroke="#b91c1c" stroke-width="4"/>
+  <!-- Bottom Right -->
+  <circle cx="920" cy="700" r="36" fill="#450a0a" stroke="#b91c1c" stroke-width="4"/>
+
+  <!-- Atmosphere Overlay -->
+  <rect width="1200" height="900" fill="url(#rubraAtmosphere)"/>
+</svg>

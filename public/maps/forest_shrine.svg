@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <!-- Forest Grass Pattern -->
+    <pattern id="forestGrass" width="60" height="60" patternUnits="userSpaceOnUse">
+      <rect width="60" height="60" fill="#062816"/>
+      <path d="M 0 0 L 60 0 M 0 60 L 60 60" stroke="#052012" stroke-width="2"/>
+      <rect x="2" y="2" width="26" height="26" fill="#0b3820" rx="4"/>
+      <rect x="32" y="2" width="26" height="26" fill="#09311c" rx="4"/>
+      <rect x="2" y="32" width="26" height="26" fill="#082d19" rx="4"/>
+      <rect x="32" y="32" width="26" height="26" fill="#0d3f24" rx="4"/>
+      <!-- Tiny wildflowers -->
+      <circle cx="14" cy="14" r="1.5" fill="#facc15"/>
+      <circle cx="44" cy="48" r="1.5" fill="#38bdf8"/>
+    </pattern>
+
+    <!-- Divine Nature Sunlight Radial Gradient -->
+    <radialGradient id="natureLight" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4ade80" stop-opacity="0.35"/>
+      <stop offset="50%" stop-color="#16a34a" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Grass Ground -->
+  <rect width="1200" height="900" fill="url(#forestGrass)"/>
+
+  <!-- Dense Forest Tree Border (Canopy) -->
+  <rect x="10" y="10" width="1180" height="880" fill="none" stroke="#064e3b" stroke-width="30" rx="20"/>
+  <rect x="30" y="30" width="1140" height="840" fill="none" stroke="#047857" stroke-width="12" rx="14"/>
+
+  <!-- Crystal Clear Forest River (flowing curving down) -->
+  <path d="M 180 0 Q 300 300 200 600 T 320 900" stroke="#0284c7" stroke-width="70" fill="none" opacity="0.6"/>
+  <path d="M 180 0 Q 300 300 200 600 T 320 900" stroke="#38bdf8" stroke-width="20" fill="none" opacity="0.8"/>
+
+  <!-- Sacred Druidic Stone Circle (Center) -->
+  <circle cx="700" cy="450" r="260" fill="url(#natureLight)"/>
+  <circle cx="700" cy="450" r="220" fill="none" stroke="#10b981" stroke-width="3" stroke-dasharray="12 8"/>
+  <circle cx="700" cy="450" r="140" fill="none" stroke="#059669" stroke-width="2"/>
+
+  <!-- Ancient Monoliths / Standing Stones around Circle -->
+  <!-- North -->
+  <ellipse cx="700" cy="230" rx="35" ry="20" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- South -->
+  <ellipse cx="700" cy="670" rx="35" ry="20" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- East -->
+  <ellipse cx="920" cy="450" rx="20" ry="35" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- West -->
+  <ellipse cx="480" cy="450" rx="20" ry="35" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- North-East -->
+  <ellipse cx="850" cy="290" rx="28" ry="22" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- North-West -->
+  <ellipse cx="550" cy="290" rx="28" ry="22" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- South-East -->
+  <ellipse cx="850" cy="610" rx="28" ry="22" fill="#334155" stroke="#64748b" stroke-width="3"/>
+  <!-- South-West -->
+  <ellipse cx="550" cy="610" rx="28" ry="22" fill="#334155" stroke="#64748b" stroke-width="3"/>
+
+  <!-- Central Altar of Allihanna -->
+  <rect x="650" y="415" width="100" height="70" fill="#1e293b" stroke="#10b981" stroke-width="3" rx="8"/>
+  <circle cx="700" cy="450" r="16" fill="#10b981" opacity="0.8"/>
+  <!-- Great Oak Tree Canopies (Corners) -->
+  <circle cx="100" cy="100" r="90" fill="#064e3b" stroke="#022c22" stroke-width="4"/>
+  <circle cx="1100" cy="100" r="90" fill="#064e3b" stroke="#022c22" stroke-width="4"/>
+  <circle cx="1100" cy="800" r="90" fill="#064e3b" stroke="#022c22" stroke-width="4"/>
+  <circle cx="100" cy="800" r="90" fill="#064e3b" stroke="#022c22" stroke-width="4"/>
+</svg>

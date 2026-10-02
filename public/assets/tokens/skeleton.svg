@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <radialGradient id="skelBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </radialGradient>
+    <linearGradient id="boneBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="50%" stop-color="#94a3b8"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="46" fill="url(#skelBg)" stroke="url(#boneBorder)" stroke-width="6"/>
+  <!-- Skull Cranium -->
+  <path d="M 32 44 C 32 26 40 20 50 20 C 60 20 68 26 68 44 C 68 54 62 58 62 64 L 38 64 C 38 58 32 54 32 44 Z" fill="#e2e8f0" stroke="#64748b" stroke-width="2"/>
+  <!-- Hollow Eye Sockets with Pale Eerie Fire -->
+  <ellipse cx="43" cy="42" rx="5" ry="6" fill="#090d16"/>
+  <ellipse cx="57" cy="42" rx="5" ry="6" fill="#090d16"/>
+  <circle cx="43" cy="42" r="2" fill="#38bdf8"/>
+  <circle cx="57" cy="42" r="2" fill="#38bdf8"/>
+  <!-- Nasal Cavity -->
+  <polygon points="50,48 48,54 52,54" fill="#090d16"/>
+  <!-- Teeth -->
+  <path d="M 42 64 L 42 70 M 46 64 L 46 70 M 50 64 L 50 70 M 54 64 L 54 70 M 58 64 L 58 70" stroke="#090d16" stroke-width="2"/>
+  <!-- Crossed Bones -->
+  <path d="M 30 76 L 70 88 M 70 76 L 30 88" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round"/>
+</svg>

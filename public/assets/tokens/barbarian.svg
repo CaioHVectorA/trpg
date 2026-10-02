@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <radialGradient id="barbBg" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#450a0a"/>
+    </radialGradient>
+    <linearGradient id="bronzeBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="50%" stop-color="#c2410c"/>
+      <stop offset="100%" stop-color="#7c2d12"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="46" fill="url(#barbBg)" stroke="url(#bronzeBorder)" stroke-width="6"/>
+  <!-- Horned War Helmet / Head -->
+  <path d="M 30 24 Q 40 18 46 30 L 40 34 Z" fill="#e2e8f0" stroke="#78350f" stroke-width="1.5"/>
+  <path d="M 70 24 Q 60 18 54 30 L 60 34 Z" fill="#e2e8f0" stroke="#78350f" stroke-width="1.5"/>
+  <circle cx="50" cy="38" r="16" fill="#ca8a04" stroke="#78350f" stroke-width="2"/>
+  <!-- Furious Eyes & War Paint -->
+  <ellipse cx="44" cy="36" rx="2.5" ry="1.5" fill="#fef08a"/>
+  <ellipse cx="56" cy="36" rx="2.5" ry="1.5" fill="#fef08a"/>
+  <path d="M 40 42 L 46 45 M 60 42 L 54 45" stroke="#dc2626" stroke-width="2"/>
+  <!-- Muscular Shoulders / Fur Pelt -->
+  <path d="M 20 84 C 22 56 34 50 50 50 C 66 50 78 56 80 84 C 66 90 34 90 20 84 Z" fill="#78350f" stroke="#451a03" stroke-width="2"/>
+  <!-- Double Axe Blades -->
+  <path d="M 40 60 Q 32 70 42 78 M 60 60 Q 68 70 58 78" stroke="#f8fafc" stroke-width="3" stroke-linecap="round"/>
+</svg>
