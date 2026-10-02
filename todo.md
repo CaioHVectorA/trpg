@@ -1,137 +1,97 @@
 # 📋 BACKLOG & TODO MASTER — ARTON VTT & TRPG PLATFORM
-
-> **Visão Geral do Produto:**  
-> Transformar a plataforma em uma ferramenta de RPG de mesa (Tormenta 20 & TRPG) com estética **monocromática, minimalista e profissional**, oferecendo uma experiência de criação de ficha **super intuitiva para os jogadores** e ferramentas táticas de **alta amplitude para o mestre**.
-
----
-
-## 🧭 Pilares Centrais da Nova Fase
-
-1. **Design Monocromático & Minimalista:** Substituir o visual supercarregado e cores saturadas por uma paleta neutra, elegante e de alto contraste (tons de cinza/zinc/slate escuros, tipografia legível, bordas sutis e foco na informação).
-2. **Responsividade Impecável:** Interface 100% fluida em celular, tablet, notebook e monitores ultrawide, sem sobreposição de gavetas ou quebras de layout.
-3. **Rolador de Dados em Tabs (Simples vs Customizado):**
-   * **Tab 1 (Simples):** Linha de comando direta (`/r 1d20+5`, `2d6+3`), teclado numérico e atalhos de dados canônicos (d4, d6, d8, d10, d12, d20, d100).
-   * **Tab 2 (Customizado):** Seletor estruturado de quantidade de dados, tipo de dado, modificador (+/-), **Classe de Dificuldade (CD alvo)** com indicação automática de sucesso/falha, vantagem/desvantagem e tipo de teste/dano.
-4. **Catálogo Completo das 16 Classes Canônicas:** Disponibilizar no criador e no compêndio todas as 14 classes de *Tormenta 20 (Jogo do Ano)* + 2 classes dos suplementos (*Pistoleiro* de Portsmouth e *Malandro* dos Becos).
-5. **Ficha Super Intuitiva para o Jogador:** Wizard sem fricção, com pré-visualização limpa, auto-cálculos imediatos e explicações transparentes de cada escolha.
-6. **Amplitude de Mestrado para o Narrador:** Painel de combate ágil, consulta rápida a monstros/ameaças, condições com 1 clique, verificação de CD nas rolagens e grid tático sem travamentos.
+> **Visão de Produto (Paradigma Roll20 & VTT Aberto):**  
+> Uma plataforma de mesa virtual (VTT) e gerenciador de fichas para Tormenta 20 e TRPG que **não impõe restrições rígidas de regras**, mas oferece **estruturação inteligente, sugestões/IntelliSense, compêndio aberto e liberdade total de customização** para jogadores e mestres. Foco central no *In-Play* (Grid tático, Canvas de cenas/NPCs, chat sincronizado com dados, mapa mundial e ferramentas de IA).
 
 ---
 
-## 📌 Checklist Detalhado de Tarefas (Status & Prioridades)
+## 🧭 Pilares da Arquitetura do VTT Aberto
 
-### 🎨 1. UI Monocromática, Limpeza Visual & Design System
-- [x] **1.1. Normalização da Paleta de Cores Monocromática:**
-  - Substituir gradientes multicores e neons (vermelhos, amarelos e azuis brilhantes juntos) por uma paleta sóbria de pretos, chumbo, cinzas e acentos em branco/off-white de alto contraste (estilo Foundry VTT / Obsidian / Linear).
-  - Manter distinção visual funcional apenas em badges de perigo/alerta crítico, sem poluição visual.
-- [x] **1.2. Refatoração dos Componentes Base (`src/components/ui`):**
-  - Ajustar `Card`, `Button`, `Badge`, `Input` e modais para estética monocromática com bordas sutis (`border-zinc-800` / `border-zinc-700`).
-  - Reduzir sombras e brilhos neon volumosos (`shadow-[0_0_50px_...]`) para sombras naturais e discretas de profundidade.
-- [x] **1.3. Limpeza Tipográfica e Hierarquia Visual:**
-  - Ajustar títulos em fontes serifadas clássicas e texto funcional em sans-serif limpa com entrelinha confortável.
-  - Eliminar poluição visual nas páginas iniciais e cabeçalhos.
-
----
-
-### 📱 2. Responsividade Global (Mobile, Tablet & Desktop)
-- [x] **2.1. Responsividade da Forja de Fichas (`SheetCreationWizard`):**
-  - Transformar a gaveta flutuante de pré-visualização (`Live Hero Drawer`) em componente retrátil ou sanfonado em telas menores que 1024px para não cobrir o formulário.
-  - Reorganizar grids de seleção de raças, classes e atributos para 1 coluna no mobile e 2 a 3 colunas em desktop.
-  - Garantir que a barra de passos do wizard quebre a linha suavemente ou use scroll horizontal sem cortes.
-- [ ] **2.2. Responsividade da Mesa Virtual (`/vtt`):**
-  - Adaptar o painel de iniciativa, ferramentas de régua e biblioteca de tokens para gavetas deslizantes laterais em telas mobile/tablet.
-  - Suporte a gestos touch (pinch-to-zoom e drag) no grid tático.
-- [x] **2.3. Responsividade da Enciclopédia & Compêndio (`/knowledge` e `/compendium`):**
-  - Adicionar scroll horizontal suave com indicação visual para tabelas de armas de fogo, materiais e condições.
-  - Menu de navegação por tomos com seletor drop-down ou carrossel deslizante em smartphones.
-- [x] **2.4. Navegação Geral (`Navigation.tsx` e `AppHeader.tsx`):**
-  - Menu hambúrguer limpo e acessível em mobile, exibindo Início, VTT, Fichas, Compêndio e Docs sem quebrar a barra superior.
+1. **Liberdade & Extensibilidade Total (Roll20-Style):**
+   * A plataforma não bloqueia edições de atributos, perícias, magias ou classes.
+   * Compêndio com sugestões inteligentes e auto-complete (IntelliSense) de magias, poderes, raças e equipamentos prontos, permitindo que o jogador/mestre crie homebrews, modifique fórmulas ou insira dados livres a qualquer momento.
+2. **Núcleo de Jogo Ativo (In-Play Experience):**
+   * **Grid Tático & Tokens:** Grid quadrado (1,5m), réguas de alcance, barras de vida/mana sobre os tokens, auras de alcance e controle de permissões de movimentação (jogador controla seu herói, mestre controla todos).
+   * **Canvas de Cenas & NPCs:** Espaço visual para o mestre projetar artes de cenário, retratos de NPCs, handouts de documentos e descrições narrativas imersivas.
+   * **Mapa de Viagem & Localização:** Aba de mapa regional/mundial com marcadores dos personagens (pins) controlados pelo narrador para acompanhar viagens por Arton.
+3. **Sessões Vivas, Chat & Sincronização em Tempo Real:**
+   * Persistência completa do estado da campanha/sessão.
+   * Chat integrado onde todas as rolagens (do rolador ou clique direto na ficha), comandos `/r`, sussurros para o mestre (`/w gm`), iniciativas e avisos de condições são transmitidos ao vivo.
+4. **Design Monocromático, Limpo & Responsivo:**
+   * Estética escura, minimalista, sem poluição visual (tons de zinco/grafite, alto contraste, tipografia nítida).
+   * Experiência suave tanto em desktop (telas grandes com múltiplos painéis) quanto no celular/tablet (gavetas retráteis e toque fluido).
+5. **Módulos Prontos para Recursos com Inteligência Artificial (AI-Powered):**
+   * Arquitetura preparada para integração de IA: Narrador de Cenas, Gerador Rápido de NPCs/Monstros, Assistente de Background de Personagem e Oráculo de Dúvidas de Regras.
 
 ---
 
-### 🎲 3. Rolador de Dados em Tabs (Simples & Customizado com CD)
-- [x] **3.1. Reestruturação do Drawer do Rolador (`DiceRollerBar.tsx`):**
-  - Adicionar controle de tabs com design monocromático no topo do painel: `[ Rápido / Comando ]` e `[ Construtor Customizado ]`.
-- [x] **3.2. Tab 1: Dado Simples & Comando Rápido:**
-  - Input minimalista para comandos de texto (ex: `1d20+7`, `3d6+2`, `/r 1d20+12 # Teste de Atletismo`).
-  - Barra de botões de dados rápidos de 1 clique: `d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `d100`.
-  - Botões auxiliares de modificadores imediatos: `+1`, `+2`, `+5`, `-1`, `-2` e botão de limpar.
-  - Atalho de teclado (tecla `Enter`) e foco automático no input.
-- [x] **3.3. Tab 2: Construtor Customizado com CD & Opções:**
-  - **Quantidade de Dados:** Seletor numérico de 1 a 20 dados.
-  - **Tipo de Dado:** Dropdown/botões para d4, d6, d8, d10, d12, d20, d100.
-  - **Modificador Fixo:** Campo numérico para bônus/penalidades (+/-).
-  - **Classe de Dificuldade (CD Alvo):** Campo para inserir a CD da tarefa ou da Defesa inimiga (ex: CD 15).
-    - Cálculo automático exibido no resultado: **Sucesso**, **Sucesso Crítico**, **Falha** ou **Falha Crítica**.
-  - **Vantagem / Desvantagem:** Opção para rolar 2d20 e ficar com o maior (`kh1`) ou menor (`kl1`).
-  - **Margem de Ameaça e Multiplicador de Crítico:** Ajuste de crítico (ex: 19-20 / x3).
-  - **Rótulo & Tipo de Dano:** Campo de descrição do teste (ex: "Ataque com Espada", "Misticismo", "Bola de Fogo").
-- [x] **3.4. Histórico e Modal de Detalhes:**
-  - Exibição limpa em lista monocromática com detalhes dos dados individuais rolados, modificador e status contra a CD.
+## 📌 Backlog Estruturado de Tarefas
+
+### 🎨 1. UI Monocromática & Experiência Responsiva
+- [x] **1.1. Design System Monocromático Minimalista:**
+  - Aplicação de paleta neutra (`zinc-950`, `zinc-900`, `zinc-800`, `zinc-100`) eliminando neons e gradientes excessivos.
+  - Componentes base (`Card`, `Badge`, `Button`, `Input`) padronizados com bordas finas e sombras discretas.
+- [x] **1.2. Responsividade Mobile-First:**
+  - Gaveta retrátil de resumo no mobile (`SheetCreationWizard`) e navegação hambúrguer responsiva.
+  - Rolagem horizontal fluida em tabelas de dados.
+- [ ] **1.3. Layout Multi-Painel para Telas Grandes (Modo Mesa / Desktop):**
+  - Grid com abas redimensionáveis: Canvas Central + Painel Lateral (Chat/Dados/Iniciativa/Notas).
 
 ---
 
-### ⚔️ 4. Catálogo das 16 Classes Canônicas
-- [ ] **4.1. Diagnóstico do "Só tem duas classes?":**
-  - O banco de dados inicial foi criado com apenas 2 classes canônicas no contrato mínimo dos testes unitários legados (`Guerreiro` e `Arcanista`), e embora 10 tivessem sido adicionadas no wizard, faltavam classes centrais do livro básico.
-- [ ] **4.2. Implementação das 14 Classes Oficiais de Tormenta 20 (Jogo do Ano):**
-  1. `Arcanista` (Mago, Bruxo, Feiticeiro) — Magia Arcana, PV 8+CON, PM 6.
-  2. `Bárbaro` — Fúria, Instinto Selvagem, PV 24+CON, PM 3.
-  3. `Bardo` — Inspiração, Magia Híbrida, Perícias Variadas, PV 12+CON, PM 4.
-  4. `Bucaneiro` — Audácia, Insolência, Evasão, PV 16+CON, PM 3.
-  5. `Caçador` — Marca da Presa, Rastreador, Estilo de Disparo/Duas Armas, PV 16+CON, PM 4.
-  6. `Cavaleiro` — Baluarte, Código de Honra, Armaduras Pesadas, PV 20+CON, PM 3.
-  7. `Clérigo` — Canalizar Energia, Devoção aos Deuses, PV 16+CON, PM 5.
-  8. `Druida` — Forma Selvagem, Força da Natureza, PV 16+CON, PM 4.
-  9. `Guerreiro` — Ataque Especial, Durabilidade, PV 20+CON, PM 3.
-  10. `Inventor` — Engenhosidade, Protótipos, Alquimia & Balística, PV 12+CON, PM 4.
-  11. `Ladino` — Ataque Furtivo, Evasão, Especialista em Perícias, PV 12+CON, PM 4.
-  12. `Lutador` — Briga desarmada, Golpe Relâmpago, Voadora, PV 20+CON, PM 3.
-  13. `Nobre` — Autoconfiança, Orgulho, Comandar, Riqueza, PV 16+CON, PM 4.
-  14. `Paladino` — Golpe Divino, Cura pelas Mãos, Aura Sagrada, PV 20+CON, PM 3.
-- [ ] **4.3. Implementação das 2 Classes Canônicas de Suplementos:**
-  15. `Pistoleiro` (*Piratas e Pistoleiros*) — Especialista em armas de fogo, recarga rápida e duelo de pederneira.
-  16. `Malandro` (*Manual do Malandro*) — Sobrevivente das ruas de Valkaria, golpes baixos e trapaças.
-- [ ] **4.4. Sincronização Completa:**
-  - Atualizar `EXPANDED_CLASSES` no `SheetCreationWizard.tsx`.
-  - Atualizar banco de dados via `prisma/seed.ts` mantendo rigorosamente os IDs canônicos exigidos pelos testes existentes (`class-guerreiro-t20` e `class-arcanista-t20`).
-  - Atualizar filtros no Compêndio (`/compendium`) para exibir todas as 16 classes categorizadas por função (Combatente, Conjurador, Especialista).
+### 🎲 2. Motor de Rolagens & Chat em Tempo Real
+- [x] **2.1. Rolador Dual-Tab (Simples vs Customizado com CD):**
+  - Tab 1: Comandos rápidos (`/r 1d20+7`) e botões diretos de `d4` a `d100`.
+  - Tab 2: Construtor customizado com quantidade, modificador, vantagem/desvantagem e verificação automática contra CD.
+- [ ] **2.2. Chat Unificado da Sessão (Roll20-Style):**
+  - Feed de mensagens em tempo real integrando rolagens de dados, mensagens de texto dos jogadores e narrativas do mestre.
+  - Comandos de barra: `/r [fórmula]`, `/w [jogador/gm] [mensagem]`, `/desc [texto de cena]`, `/init [bônus]`.
+  - Exibição de cards ricos de ataques e magias acionados direto da ficha.
+- [ ] **2.3. Sincronização e Persistência de Sessão:**
+  - Persistência das mensagens, rolagens e histórico da campanha no banco de dados.
 
 ---
 
-### 🧙‍♂️ 5. Forja de Fichas Super Intuitiva para Jogadores
-- [ ] **5.1. Fluxo Passo-a-Passo Guiado com Explicações Claras:**
-  - Passo 1: Conceito & Arquétipo (ou personalização do zero).
-  - Passo 2: Raça & Modificadores visuais imediatos.
-  - Passo 3: Classe & Papel de combate explicado com linguagem simples.
-  - Passo 4: Atributos com modo guiado (Point Buy com chips visuais ou 4d6 animado).
-  - Passo 5: Perícias automáticas + escolha guiada das restantes.
-  - Passo 6: Magias & Poderes com descrição inline sem termos confusos.
-  - Passo 7: Equipamento inicial inteligente (kits prontos por classe).
-  - Passo 8: Revisão e criação com 1 clique.
-- [ ] **5.2. Modo "Criador Rápido" (1-Click Archetypes):**
-  - Expandir os arquétipos prontos para cobrir as principais vocações com equipamentos, perícias e atributos já distribuídos de forma equilibrada.
-- [ ] **5.3. Validações sem Bloqueios Frustrantes:**
-  - Alertas suaves para escolhas incompletas em vez de modais intrusivos.
-  - Opção de auto-preencher itens restantes se o jogador quiser ir direto para a partida.
+### 🧙‍♂️ 3. Ficha Flexível & IntelliSense (Sem Bloqueios de Livro)
+- [ ] **3.1. Modo Ficha Livre & Extensível:**
+  - Permitir que o jogador edite livremente qualquer campo (nome da raça, classe inventada, valores de atributos, perícias personalizadas).
+  - Cálculos automáticos como *sugestão* (PV, PM, Defesa), mas com opção de sobreposição manual (override) pelo jogador ou mestre.
+- [ ] **3.2. IntelliSense & Auto-Complete do Compêndio:**
+  - Ao digitar o nome de uma Magia, Poder, Arma ou Equipamento, exibir dropdown de autocompletar com dados canônicos dos livros de Tormenta.
+  - Botão "Inserir Dados Oficiais": preenche automaticamente custo de PM, círculo, alcance, dano e descrição, mantendo os campos editáveis.
+- [ ] **3.3. Compêndio Aberto de Magias & Poderes (Prontos para Arrastar/Copiar):**
+  - Catálogo completo das magias e poderes dos livros (T20, TRPG, Malandro, Piratas, Moreania) com busca instantânea e botão de 1 clique para adicionar à ficha.
+- [ ] **3.4. Exportação & Importação Universal:**
+  - Exportação e importação instantânea em JSON e impressão limpa da ficha.
 
 ---
 
-### 👑 6. Ferramentas de Amplitude para o Mestre de Mesa
-- [ ] **6.1. Painel de Controle Rápido do Mestre no VTT:**
-  - Gaveta de combate com lista rápida de iniciativa, alteração de PV/PM com botões de +/- instantâneos.
-  - Aplicação de condições de batalha (*Abalado, Caído, Cego, Desprevenido, etc.*) em tokens com 1 clique, refletindo no cálculo de ataque/defesa.
-- [ ] **6.2. Testes de CD & Dificuldade Integrados:**
-  - O mestre pode anunciar uma CD no chat ou no rolador, e todas as rolagens comparam o total contra a CD em tempo real.
-- [ ] **6.3. Catálogo Rápido de Ameaças & Bestiário:**
-  - Busca rápida de monstros por Nível de Desafio (ND) no VTT para arrastar tokens prontos diretamente para o mapa.
-- [ ] **6.4. Histórico Auditável de Rolagens do Mestre:**
-  - Opção de rolagens públicas ou secretas para o mestre.
+### 🗺️ 4. Mesa Virtual (VTT), Grid Tático & Canvas de Cenas
+- [ ] **4.1. Grid Tático com Controle de Tokens:**
+  - Arraste suave de tokens em grid de 1,5m com réguas de alcance (Chebyshev, Euclidiana, Faixas de Alcance T20).
+  - Barras de PV/PM integradas sobre o token, indicadores de condições (Abalado, Caído, Cego, etc.) e auras visuais.
+  - Permissões de controle: Jogador move apenas seu token; Mestre move qualquer combatente.
+- [ ] **4.2. Painel de Iniciativa & Turn Tracker Dinâmico:**
+  - Lista de turnos ordenada com desempate por Destreza.
+  - Botão "Avançar Turno/Rodada" que notifica no chat e sincroniza efeitos com duração em rodadas.
+- [ ] **4.3. Canvas de Cenas & Handouts do Narrador:**
+  - Painel onde o mestre pode projetar imagens de ambiente, artes de tavernas/ruínas e retratos de NPCs para todos os jogadores.
+  - Bloco de notas narrativo da cena compartilhado ou secreto do mestre.
+- [ ] **4.4. Aba de Mapa Regional com Localização dos Jogadores:**
+  - Visualizador de mapa do mundo (Arton / Moreania / Valkaria) com pins dos personagens que o mestre pode arrastar para indicar a rota da comitiva.
 
 ---
 
-## 🔒 Regras de Não-Regressão e Garantia Técnica
-* **Preservação de Testes:** Manter 100% dos 433 testes vitest aprovados em todas as execuções (`npm test`).
-* **Preservação do Script de Teste:** O script `"test"` no `package.json` deve permanecer estritamente `"vitest run"`.
-* **Prisma Provider Dinâmico:** Preservar `scripts/prepare-prisma.js` para alternar entre SQLite local e PostgreSQL em produção sem quebras.
-* **Build de Produção Limpo:** Garantir compilação com saída limpa (`npm run build` com exit code 0).
+### 🤖 5. Módulos Preparatórios para Recursos de IA (AI-Powered)
+- [ ] **5.1. IA Narradora de Cenas & Ambientes (Prompt & Context Helper):**
+  - Gerador de descrições sensoriais de salas, clima, clima de combate e aromas para o mestre narrar com riqueza de detalhes.
+- [ ] **5.2. Forja de NPCs & Ameaças por IA:**
+  - Geração instantânea de fichas rápidas de bandidos, monstros e cidadãos com personalidade, táticas de combate e itens.
+- [ ] **5.3. Oráculo de Regras com IA:**
+  - Consulta contextual de regras de combate e manobras para dirimir dúvidas da mesa sem pausar a sessão.
+
+---
+
+## 🛡️ Diretrizes de Manutenção Técnica
+* **100% dos Testes Preservados:** Manter todos os testes unitários e de integração verdes (`npm test`).
+* **Compilação e Deploy Contínuo:** Build limpo sem erros de tipo no Next.js (`npm run build`).
+* **Multi-Database Agnostic:** Compatibilidade com SQLite (dev) e PostgreSQL (Vercel).

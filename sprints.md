@@ -1,190 +1,120 @@
-# 🚀 PLANEJAMENTO DE SPRINTS — ARTON VTT & TRPG PLATFORM
+# 🚀 PLANEJAMENTO DE SPRINTS — ARTON VTT (PARADIGMA ROLL20 & VTT ABERTO)
 
-> **Objetivo Estratégico:**  
-> Transformar a plataforma em uma ferramenta de referência para Tormenta 20 e TRPG, com visual **monocromático e limpo**, criação de personagens **super intuitiva para jogadores** e ferramentas táticas com **ampla liberdade e controle para o mestre**.
+> **Visão de Execução:**  
+> Desenvolvimento ágil estruturado para entregar uma plataforma de RPG de mesa flexível, aberta e poderosa, que apoie jogadores na criação ágil de fichas com **IntelliSense/sugestões dos livros sem engessar regras**, e conceda ao mestre **máxima amplitude no jogo ativo** (Grid tático, Canvas de cenas, mapa com pins dos jogadores, chat em tempo real e módulos de IA).
 
 ---
 
-## 📊 Visão Geral do Roadmap de Sprints
+## 📊 Quadro Geral de Sprints
 
-| Sprint | Foco Principal | Entregáveis Chave | Impacto para Usuários |
+| Sprint | Tema / Foco | Entregáveis Principais | Status |
 | :--- | :--- | :--- | :--- |
-| **Sprint 1** | **UI Monocromática & Responsividade** | Paleta limpa em tons neutros/chumbo, eliminação de neons saturados, layout responsivo mobile/tablet, navegação sem quebras. | Visual profissional, leitura sem fadiga e suporte total a celulares e tablets. |
-| **Sprint 2** | **Rolador de Dados em Tabs (Simples & Customizado)** | Tab 1 (Comando rápido + botões d4-d100) e Tab 2 (Qtd, tipo, modificador, **CD alvo com Sucesso/Falha**, vantagem). | Rolagens instantâneas para jogadores e resolução ágil de desafios para o mestre. |
-| **Sprint 3** | **16 Classes Canônicas & Forja Intuitiva do Jogador** | Inclusão de todas as 14 classes de T20 + 2 de suplementos; wizard simplificado e guiado com prévia fluida e auto-cálculos. | Criação de personagens rápida, prazerosa e sem dúvidas para iniciantes e veteranos. |
-| **Sprint 4** | **Amplitude do Mestre de Mesa (VTT & Ferramentas)** | Painel rápido de combate, aplicação de condições em 1 clique, bestiário por ND no grid e rolagens secretas do narrador. | O mestre gerencia combates complexos com agilidade e amplitude total. |
+| **Sprint 1** | **UI Monocromática & Rolador Dual-Tab** | Design escuro neutro (Foundry/Obsidian), layout responsivo com gaveta retrátil mobile, rolador em abas (Simples vs Customizado com CD). | ✅ **Concluída** |
+| **Sprint 2** | **Ficha Flexível & IntelliSense (Roll20-Style)** | Ficha 100% editável e extensível (homebrews/custom), auto-complete com dados oficiais dos livros (Magias, Poderes, Raças, Classes), cálculo sugerido com override manual. | 🎯 **Próxima** |
+| **Sprint 3** | **Sessões Vivas & Chat em Tempo Real** | Feed de chat sincronizado da mesa, exibição de rolagens com cliques na ficha, comandos `/r` e `/w`, histórico persistente de campanha. | ⏳ **Planejada** |
+| **Sprint 4** | **Grid Tático, Canvas de Cenas & Mapa Mundial** | Grid de 1,5m com tokens e auras, painel de iniciativa dinâmico, Canvas do mestre para projeção de cenas/NPCs e aba de mapa com pins dos jogadores. | ⏳ **Planejada** |
+| **Sprint 5** | **Módulos AI-Powered (Assistentes do Mestre & Jogador)** | Narrador de cenas por IA, forja rápida de NPCs com IA e oráculo contextual de regras. | ⏳ **Planejada** |
 
 ---
 
-## 🏃 SPRINT 1: UI Monocromática, Minimalismo & Responsividade Global
+## 🏃 SPRINT 1: UI Monocromática & Rolador Dual-Tab ✅ (Concluída)
+* **Design System Monocromático:** Transição de gradientes e neons para tons neutros (`zinc-950`/`zinc-900`/`zinc-100`).
+* **Responsividade Mobile:** Criador de fichas com barra inferior retrátil em telas pequenas para não bloquear inputs.
+* **Rolador de Dados em Tabs:**
+  * Aba 1: Comando livre (`1d20+7`) e botões rápidos `d4` a `d100`.
+  * Aba 2: Construtor customizado com CD e cálculo de **Sucesso**, **Sucesso Crítico**, **Falha** ou **Falha Crítica**.
+* **Validação:** 433/433 testes vitest passando e build de produção no ar na Vercel.
 
-### 🎯 Objetivo da Sprint
-Substituir o visual carregado de cores e efeitos por uma estética monocromática refinada (estilo Foundry VTT / Obsidian / Linear), simplificando a interface e tornando todas as telas (fichas, VTT, enciclopédia) 100% responsivas para celulares, tablets e desktops.
+---
+
+## 🧙‍♂️ SPRINT 2: Ficha Flexível & IntelliSense dos Livros (Roll20-Style)
+
+### 🎯 Objetivo
+Transformar a ficha de personagem em uma ferramenta totalmente aberta e extensível, onde o jogador pode criar ou modificar qualquer classe, raça ou magia sem travas de regras, contando com um **sistema de auto-complete inteligente (IntelliSense)** alimentado pelo compêndio de Tormenta dos 6 livros para acelerar o preenchimento.
 
 ### 📝 Histórias de Usuário & Tarefas
-* **US 1.1 — Design System Monocromático:**
-  * *Como* usuário da plataforma, *quero* uma interface escura, limpa e com alto contraste, *para* poder ler fichas e tabelas por horas sem cansaço visual.
+* **US 2.1 — Ficha Aberta e Extensível (Zero Bloqueios):**
+  * *Como* jogador usando uma raça ou classe customizada/homebrew, *quero* poder digitar qualquer nome de classe, valores de atributos ou perícias livres na minha ficha.
   * **Tarefas Técnicas:**
-    * Substituir acentos excessivos de amarelo, vermelho e ciano por tons neutros (`zinc-950`, `zinc-900`, `zinc-800`, `zinc-400`, `zinc-100`).
-    * Refatorar variantes do componente `Badge` e `Button` para estilos monocromáticos sóbrios com bordas sutis.
-    * Reduzir sombras difusas e neons volumosos (`blur-3xl`, `shadow-[0_0_50px]`) em favor de sombras de relevo discretas e elegantes.
-    * Arquivos: `src/components/ui/badge.tsx`, `src/components/ui/button.tsx`, `src/components/ui/card.tsx`, `src/app/globals.css`.
-* **US 1.2 — Responsividade do Criador de Fichas:**
-  * *Como* jogador em dispositivo móvel, *quero* que o assistente de fichas não tenha partes cortadas ou a tela encoberta pela gaveta flutuante.
+    * Permitir edição livre de todos os campos de atributos, defesas, PV, PM e deslocamento.
+    * Auto-cálculos atuam como assistência e preenchimento sugerido, mantendo botão de "Override Manual".
+* **US 2.2 — Sistema de IntelliSense & Autocomplete do Compêndio:**
+  * *Como* jogador preenchendo minhas magias ou poderes, *quero* começar a digitar o nome (ex: *"Bola de Fogo"*, *"Ataque Especial"*, *"Malandragem"*) e ver as opções oficiais dos livros para preenchimento automático.
   * **Tarefas Técnicas:**
-    * Transformar a gaveta flutuante (`Live Hero Preview`) em painel colapsável/sanfonado em telas menores que `lg` (1024px).
-    * Ajustar passos e formulários para grade de coluna única em smartphones com padding confortável.
-    * Arquivo: `src/components/sheet/SheetCreationWizard.tsx`.
-* **US 1.3 — Responsividade do Cabeçalho e Navegação:**
-  * *Como* usuário, *quero* navegar entre Início, VTT, Fichas, Grimório e Enciclopédia no celular sem que os botões se sobreponham.
+    * Componente de campo com autocompletar inteligente consultando o banco do compêndio em tempo real.
+    * Ao selecionar uma opção do dropdown, preencher automaticamente: Custo de PM, Dano, Círculo, Alcance e Descrição completa, permitindo edições posteriores.
+* **US 2.3 — Catálogo de Magias & Poderes Prontos para Uso:**
+  * *Como* jogador ou mestre, *quero* abrir uma gaveta lateral de compêndio e clicar em "Adicionar à Ficha" para importar magias e itens na hora.
   * **Tarefas Técnicas:**
-    * Implementar menu mobile limpo com gaveta ou dropdown minimalista.
-    * Arquivos: `src/components/layout/Navigation.tsx`, `src/components/layout/AppHeader.tsx`.
-* **US 1.4 — Responsividade das Tabelas da Enciclopédia:**
-  * *Como* mestre consultando regras no celular, *quero* navegar facilmente pelas tabelas de armas e condições.
-  * **Tarefas Técnicas:**
-    * Adicionar contêiner de scroll horizontal suave com indicador de rolagem para tabelas de armas de fogo e materiais.
-    * Arquivo: `src/app/knowledge/page.tsx`.
-
-### 🏁 Critérios de Aceite (DoD):
-* [ ] Paleta monocromática aplicada em todas as páginas principais.
-* [ ] Zero overflow horizontal indesejado em resoluções de 375px (iPhone SE) a 4K.
-* [ ] Todos os 433 testes do Vitest passando sem falhas (`npm test`).
-* [ ] Build de produção sem avisos de compilação (`npm run build`).
+    * Integração entre o navegador do compêndio (`CompendiumBrowser`) e a ficha do herói.
+* **US 2.4 — Exportação, Importação e Impressão:**
+  * *Como* usuário, *quero* salvar e carregar minhas fichas em JSON ou imprimir em layout limpo.
+  * Arquivos: `src/components/sheet/CharacterSheetView.tsx`, `src/components/sheet/SheetCreationWizard.tsx`, `src/components/compendium/CompendiumBrowser.tsx`.
 
 ---
 
-## 🎲 SPRINT 2: Rolador de Dados Dual-Tab (Simples vs Customizado com CD)
+## 💬 SPRINT 3: Sessões Vivas, Chat Integrado & Feed de Rolagens
 
-### 🎯 Objetivo da Sprint
-Reformular completamente o drawer do rolador de dados flutuante, introduzindo uma interface dividida em duas abas dedicadas: uma para comandos rápidos e cliques diretos, e outra para construção detalhada de testes táticos com conferência automática contra a Classe de Dificuldade (CD).
+### 🎯 Objetivo
+Construir a espinha dorsal de comunicação da mesa de jogo: um chat persistente onde todas as ações dos jogadores (mensagens, rolagens de dados com clique na ficha, magias, comandos manuais e sussurros) aparecem formatados de forma rica e sincronizada.
 
 ### 📝 Histórias de Usuário & Tarefas
-* **US 2.1 — Navegação em Tabs no Rolador:**
-  * *Como* jogador ou mestre, *quero* alternar rapidamente entre rolagem rápida e rolagem customizada avançada.
+* **US 3.1 — Chat da Mesa em Tempo Real (Roll20-Style):**
+  * *Como* jogador ou mestre, *quero* enviar mensagens de chat e ver as rolagens de todos em tempo real.
   * **Tarefas Técnicas:**
-    * Criar seletor de tabs minimalista no topo de `DiceRollerBar.tsx`:
-      - `[ Dado Rápido / Comando ]`
-      - `[ Construtor Customizado ]`
-* **US 2.2 — Tab 1: Dado Simples & Comando Rápido:**
-  * *Como* jogador, *quero* digitar um comando livre como `1d20+7` ou clicar num `d20` para rolar imediatamente.
+    * Feed de chat unificado com suporte a Markdown básico e nomes dos personagens.
+    * Comandos de chat suportados:
+      - `/r [fórmula]` ou `/roll [fórmula]` (ex: `/r 1d20+8 # Ataque`).
+      - `/w [gm|jogador] [mensagem]` (sussurros privados).
+      - `/desc [texto]` (descrições narrativas de cena sem identificador de personagem).
+      - `/init [bônus]` (rolagem automática para entrar no painel de iniciativa).
+* **US 3.2 — Clique Direto da Ficha para o Chat:**
+  * *Como* jogador, *quero* clicar no meu ataque de espada, teste de perícia ou magia na ficha e ver o card com o resultado aparecer imediatamente no chat para todos.
   * **Tarefas Técnicas:**
-    * Campo de input com atalho de teclado `Enter` e histórico de comandos recentes.
-    * Botões rápidos monocromáticos de dados canônicos: `d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `d100`.
-    * Botões de soma rápida: `+1`, `+2`, `+5`, `-1`, `-2` e `Limpar`.
-* **US 2.3 — Tab 2: Construtor Customizado com Teste contra CD:**
-  * *Como* mestre ou jogador fazendo teste de resistência ou ataque, *quero* definir a CD alvo e ver na hora se passei ou falhei.
-  * **Tarefas Técnicas:**
-    * Seletores estruturados:
-      - Quantidade de dados (stepper numérico de 1 a 20).
-      - Tipo de dado (`d4`, `d6`, `d8`, `d10`, `d12`, `d20`, `d100`).
-      - Modificador (+ / - campo numérico).
-      - **Campo de Classe de Dificuldade (CD Alvo):** ex: CD 15, CD 20.
-      - **Vantagem / Desvantagem:** Opção para rolar 2d20 e manter o melhor (`kh1`) ou o pior (`kl1`).
-      - **Margem de Ameaça e Multiplicador de Crítico:** ex: 19-20 / x3.
-      - **Rótulo do Teste:** ex: "Iniciativa", "Ataque", "Reflexos contra Bola de Fogo".
-    * Avaliação automática do resultado exibida em destaque:
-      - ✅ **Sucesso** (Total ≥ CD)
-      - 🌟 **Sucesso Crítico** (20 natural ou crítico atendendo à CD)
-      - ❌ **Falha** (Total < CD)
-      - 💀 **Falha Crítica** (1 natural no d20)
-* **US 2.4 — Histórico e Notificação Sonora Sutil:**
-  * *Como* usuário, *quero* ver no histórico o resultado do teste comparado com a CD estipulada.
-  * Arquivos: `src/components/dice/DiceRollerBar.tsx`, `src/components/dice/DiceLogHistory.tsx`, `src/lib/dice/evaluator.ts`.
-
-### 🏁 Critérios de Aceite (DoD):
-* [ ] Aba Simples executa comandos de texto e botões rápidos em menos de 100ms.
-* [ ] Aba Customizada calcula acerto/falha contra a CD configurada com feedback visual claro.
-* [ ] Compatibilidade total mantida com o `DiceContext` e o motor `DiceEngine`.
-* [ ] 100% dos testes unitários de dados continuam verdes.
+    * Integração de gatilhos de clique na ficha despachando payloads para o chat e histórico da sessão.
+* **US 3.3 — Persistência de Histórico de Sessão:**
+  * *Como* mestre, *quero* que o log de mensagens e rolagens da campanha fique salvo para consulta em sessões posteriores.
+  * Arquivos: `src/components/vtt/TacticalGridCanvas.tsx`, `src/components/dice/DiceContext.tsx`, `src/app/api/rolls/route.ts`.
 
 ---
 
-## ⚔️ SPRINT 3: O Panteão Completo das 16 Classes & Forja Intuitiva do Jogador
+## 🗺️ SPRINT 4: Grid Tático, Canvas de Cenas, NPCs & Mapa com Marcadores
 
-### 🎯 Objetivo da Sprint
-Resolver a ausência das classes canônicas, implementando as 14 classes oficiais do livro básico de *Tormenta 20 (Jogo do Ano)* mais as 2 classes dos suplementos de Tormenta (*Pistoleiro* e *Malandro*). Transformar a criação de ficha em um fluxo guiado, transparente e sem bloqueios técnicos.
+### 🎯 Objetivo
+Consolidar a experiência in-play do mestre e dos jogadores: grid de combate com tokens interativos, painel de projeção de cenas/handouts, rastreador de turnos e mapa de viagem com marcadores dos personagens.
 
 ### 📝 Histórias de Usuário & Tarefas
-* **US 3.1 — Catálogo Completo das 16 Classes:**
-  * *Como* jogador de Tormenta, *quero* poder criar qualquer uma das classes oficiais do sistema sem estar limitado a apenas algumas opções.
-  * **As 14 Classes de T20 (Jogo do Ano):**
-    1. `Arcanista` (Mago, Bruxo, Feiticeiro)
-    2. `Bárbaro` (Fúria selvagem, combatente de alta vitalidade)
-    3. `Bardo` (Inspiração, canções e magia versátil)
-    4. `Bucaneiro` (Especialista acrobático com florete e pistola)
-    5. `Caçador` (Rastreador letal com marca da presa)
-    6. `Cavaleiro` (Tanque blindado focado em honra e desafio)
-    7. `Clérigo` (Canalizador divino dos 20 Deuses)
-    8. `Druida` (Guardião da natureza e mestre da forma selvagem)
-    9. `Guerreiro` (Mestre tático de armas marciais)
-    10. `Inventor` (Gênio de engenhocas, armas de fogo e poções)
-    11. `Ladino` (Especialista em furtividade e ataque furtivo)
-    12. `Lutador` (Combatente corpo-a-corpo e artes marciais)
-    13. `Nobre` (Líder diplomático da corte com autoconfiança)
-    14. `Paladino` (Campeão sagrado da luz e da justiça)
-  * **As 2 Classes de Suplementos Canônicos:**
-    15. `Pistoleiro` (*Piratas e Pistoleiros*)
-    16. `Malandro` (*Manual do Malandro*)
+* **US 4.1 — Grid Tático de Combate & Permissões:**
+  * *Como* mestre e jogador, *quero* mover tokens no grid com réguas de alcance e visualização de barras de PV/PM sobre a miniatura.
   * **Tarefas Técnicas:**
-    * Inserir as novas classes no `prisma/seed.ts` preservando os IDs exigidos por testes legados (`class-guerreiro-t20` e `class-arcanista-t20`).
-    * Configurar atributos-chave, PV inicial, PV por nível, PM inicial, PM por nível, perícias obrigatórias, perícias de escolha e proficiências de armadura/arma para cada uma das 16 classes.
-    * Atualizar `EXPANDED_CLASSES` em `SheetCreationWizard.tsx`.
-* **US 3.2 — Fluxo de Criação Super Intuitivo:**
-  * *Como* jogador iniciante, *quero* que o assistente me guie passo a passo com explicações práticas de cada escolha.
-  * **Tarefas Técnicas:**
-    * Indicação clara de quantos pontos/perícias faltam selecionar em tempo real.
-    * Explicações resumidas em tooltip/card sobre as habilidades de classe e raça.
-    * Botão "Preenchimento Automático Inteligente" para jogadores que desejam gerar uma ficha pronta com 1 clique para jogar na hora.
-* **US 3.3 — Pré-visualização Dinâmica e Exportação Limpa:**
-  * *Como* jogador, *quero* ver meus PV, PM, Defesa e ataques se atualizarem imediatamente e poder exportar minha ficha em JSON ou imprimir/copiar com facilidade.
-  * Arquivos: `src/components/sheet/SheetCreationWizard.tsx`, `prisma/seed.ts`, `src/lib/types/index.ts`.
-
-### 🏁 Critérios de Aceite (DoD):
-* [ ] Todas as 16 classes selecionáveis no criador de personagens e no compêndio.
-* [ ] Cálculos de PV e PM de todas as classes validados rigorosamente com as regras oficiais de T20.
-* [ ] Jogador consegue criar uma ficha completa em menos de 2 minutos pelo fluxo rápido ou passo a passo.
-* [ ] 433/433 testes vitest aprovados sem quebra de contrato.
+    * Tokens com auras de alcance (Curto 9m, Médio 30m, etc.) e badges de condições (*Abalado, Caído, Cego*).
+    * Sistema de controle: o jogador só pode mover o token vinculado à sua ficha; o mestre tem controle total.
+* **US 4.2 — Painel de Iniciativa & Rastreador de Rodadas:**
+  * *Como* mestre, *quero* gerenciar os turnos dos combatentes com botão de avançar rodada que avisa o próximo jogador no chat.
+* **US 4.3 — Canvas de Cenas & Handouts do Narrador:**
+  * *Como* mestre, *quero* trocar o modo de exibição de "Grid de Batalha" para "Cena Narrativa", projetando a arte de uma taverna, ruína ou retrato de NPC para os jogadores.
+* **US 4.4 — Aba de Mapa Mundial com Marcadores dos Jogadores:**
+  * *Como* narrador, *quero* uma aba de mapa (Arton, Valkaria, Moreania) onde posso posicionar e mover os marcadores dos jogadores durante as viagens entre reinos.
+  * Arquivos: `src/components/vtt/TacticalGridCanvas.tsx`, `src/components/vtt/InitiativePanel.tsx`.
 
 ---
 
-## 👑 SPRINT 4: Amplitude do Mestre de Mesa (VTT Tático & Painel do Narrador)
+## 🤖 SPRINT 5: Recursos com Inteligência Artificial (AI-Powered)
 
-### 🎯 Objetivo da Sprint
-Municiar o mestre de mesa com ferramentas ágeis que ampliem sua capacidade de conduzir sessões imersivas e sem atrito: aplicação instantânea de condições de combate, ajuste rápido de tokens no mapa tático, catálogo de monstros por Nível de Desafio (ND) e rolagens com controle de visibilidade.
+### 🎯 Objetivo
+Integrar ferramentas generativas assistidas por IA para acelerar a preparação de sessões do mestre e enriquecer a criação de conceitos dos jogadores.
 
 ### 📝 Histórias de Usuário & Tarefas
-* **US 4.1 — Painel Tático Rápido do Mestre no VTT:**
-  * *Como* mestre em combate, *quero* alterar PV, PM e aplicar condições aos combatentes com 1 clique sem abrir menus pesados.
-  * **Tarefas Técnicas:**
-    * Menu de contexto rápido nos tokens com botões `+5/-5 PV`, `+1/-1 PM`.
-    * Seletor de condições rápidas (*Abalado, Caído, Cego, Desprevenido, etc.*) que exibe o ícone monocromático sobre o token e ajusta automaticamente a Defesa ou ataque da criatura.
-* **US 4.2 — Biblioteca Rápida de Ameaças & Monstros por ND:**
-  * *Como* narrador preparando um encontro, *quero* arrastar monstros diretamente da gaveta lateral para o grid com ficha resumida.
-  * **Tarefas Técnicas:**
-    * Filtro ágil por ND (ex: ND 1/4 até ND 20) e bioma (Masmorra, Ermos, Cidade, Tormenta).
-    * Spawn de token com nome, PV e iniciativa já configurados no grid.
-* **US 4.3 — Rolagens do Mestre (Públicas ou Secretas):**
-  * *Como* mestre, *quero* escolher se uma rolagem é exibida para todos os jogadores ou apenas para mim.
-  * **Tarefas Técnicas:**
-    * Toggle "Rolagem Secreta do Mestre" no rolador de dados.
-* **US 4.4 — Integração da CD no Chat da Mesa:**
-  * *Como* narrador anunciando um desafio ("Façam um teste de Atletismo CD 18!"), *quero* que o rolador compare o resultado do jogador com a CD anunciada.
-  * Arquivos: `src/components/vtt/TacticalGridCanvas.tsx`, `src/components/vtt/InitiativePanel.tsx`, `src/components/compendium/CompendiumBrowser.tsx`.
-
-### 🏁 Critérios de Aceite (DoD):
-* [ ] O mestre consegue posicionar ameaças e iniciar combate em menos de 30 segundos.
-* [ ] Condições afetam as estatísticas dos tokens de forma reativa.
-* [ ] O VTT opera a 60 FPS com grid tático e réguas de alcance sem engasgos.
-* [ ] Sistema 100% funcional em modo offline/local e pronto para deploy em produção.
+* **US 5.1 — Narrador de Cenas & Ambientes (AI Scene Narrator):**
+  * *Como* mestre em jogo ativo, *quero* pedir uma descrição atmosférica com 1 clique (ex: *"Descreva uma cripta de Khalmyr abandonada com cheiro de incenso antigo e poeira mágica"*).
+* **US 5.2 — Forja Rápida de NPCs & Ameaças por IA:**
+  * *Como* narrador pego de surpresa pelos jogadores, *quero* gerar em segundos um NPC com nome, objetivo, personalidade e estatísticas básicas de Tormenta.
+* **US 5.3 — Oráculo de Regras por IA:**
+  * *Como* mestre ou jogador com dúvida tática, *quero* perguntar sobre uma manobra ou interação de poderes e receber uma resposta concisa baseada nas regras oficiais.
 
 ---
 
-## 🛡️ Gestão de Riscos & Garantias Técnicas
-
-1. **Risco de Quebra dos Testes E2E (Vitest):**
-   * *Mitigação:* As 12 entidades canônicas essenciais do `seed.ts` (como `race-humano-t20`, `class-guerreiro-t20`, `class-arcanista-t20`) são protegidas e nunca alteradas em seus IDs ou estruturas essenciais. Novas classes recebem IDs padronizados complementares.
-2. **Risco de Incompatibilidade de Banco (SQLite vs Postgres):**
-   * *Mitigação:* O script `scripts/prepare-prisma.js` garante transição transparente entre o SQLite de desenvolvimento e o PostgreSQL na nuvem (Vercel).
-3. **Risco de Sobrecarga Visual:**
-   * *Mitigação:* Cada nova tela ou componente passa pelo filtro de design monocromático: tons de cinza neutros, sem gradientes chamativos e com foco na tipografia e nos dados da partida.
+## 🔒 Critérios de Qualidade e Não-Regressão
+1. **433/433 Testes Vitest:** Todos os testes unitários e de integração de regras permanecem 100% aprovados.
+2. **Sem Travas de Regras:** A plataforma atua como assistente/facilitador, nunca como limitador.
+3. **Performance Visual:** Animações e renderização do grid operando a 60 FPS.
